@@ -1,0 +1,37 @@
+cd .\scripts
+
+ . .\common\azure-storage.ps1
+. .\common\connect-azure.ps1
+
+connectToAzure
+
+#$sc = getStorageContext
+#$filePath = "C:\work\source\chat1\chat1-fe\public\index.html"
+#$blobName = "index.html"
+#Set-AzStorageBlobContent -Context $sc -Container 'test1' -File $filePath -Blob $blobName -Force
+
+
+$sc = getStorageContext
+$filePath = "C:\work\source\chat1\chat1-fe\build\static\js\2.e0288c5f.chunk.js"
+$blobName = "static\js\2.e0288c5f.chunk.js"
+#Set-AzStorageBlobContent -Context $sc -Container 'test1' -File $filePath -Blob $blobName -Force
+
+$p1 = "C:\work\source\chat1\chat1-fe\build\";
+$p2 = "C:\work\source\chat1\chat1-fe\build\static\js\2.e0288c5f.chunk.js";
+$u1 = New-Object -TypeName Uri -ArgumentList $p1;
+$u2 = New-Object -TypeName Uri -ArgumentList $p2;
+$u3 = $u1.MakeRelativeUri($u2);
+$u4 = $u2.MakeRelativeUri($u1);
+$u3.ToString();
+$u4.ToString();
+
+
+[System.IO.Path]:
+
+[System.IO.Path]::GetRelativePath($p2, $p1)
+
+
+#Set-AzStorageBlobContent -Context $sc -Container '$web' -File $filePath -Blob $blobName -Force
+
+
+
