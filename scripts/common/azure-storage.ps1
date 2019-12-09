@@ -19,7 +19,18 @@ function getPathRelativeToBase($fullPath, $basePath) {
 }
 
 function uploadFileToStorageAccount($storageContext, $containerName, $filePath, $blobName) {
-    Set-AzStorageBlobContent -Context $storageContext -Container $containerName -File $filePath -Blob $blobName -Force -ErrorAction Stop;
+    $contentType = ""; # use default content type
+    
+    if ($blobName -match '.html$') {
+        $contentType = "text/html"
+    }
+    
+    if ($blobName -match '.js$') {
+        $contentType = "application/javascript"
+    }
+
+    $blobProperties = @{ContentType = $contentType};
+    Set-AzStorageBlobContent -Context $storageContext -Container $containerName -File $filePath -Blob $blobName -Force -Properties $blobProperties -ErrorAction Stop;
 }
 
 function uploadFolderToStorageAccount($storageContext, $containerName, $folderPath, $basePath) {
