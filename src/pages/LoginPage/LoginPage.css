@@ -1,0 +1,8 @@
+.chat1-loginpage {
+  font-weight: bold;
+  text-align: left;
+}
+
+.chat1-loginpage__authFailureMessage {
+  color: red;
+}
