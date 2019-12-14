@@ -1,6 +1,7 @@
 .chat1-loginpage {
   font-weight: bold;
   text-align: left;
+  padding: 1rem;
 }
 
 .chat1-loginpage__authFailureMessage {

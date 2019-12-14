@@ -1,0 +1,53 @@
+.chat1-topBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+  background-color: darkgray;
+  color: black;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.chat1-topBar__pageTitle {
+  text-align: center;
+}
+
+.chat1-topBar__logo {
+  height: 3rem;
+}
+
+.chat1-topBar__leftSection  {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.chat1-topBar__leftSectionElement {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.chat1-topBar__middleSection  {
+}
+
+.chat1-topBar__rightSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.chat1-topBar__rightSectionElement {
+  line-height: 4rem;
+  max-width: 15rem;
+  border-left: 1px gray solid;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.chat1-topBar__buttonLogout {
+  font-weight: bold;
+}
+  

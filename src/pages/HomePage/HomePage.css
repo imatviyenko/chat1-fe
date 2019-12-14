@@ -1,3 +1,14 @@
-.chat1-homepage {
-  text-align: center;
+.chat1-homePage__content {
+  display: flex;
+  flex-direction: row;
+}
+
+.chat1-homePage__content_left {
+  flex-basis: 30%;
+  border: 1px solid black;
+}
+
+.chat1-homePage__content_right {
+  flex-basis: 70%;
+  border: 1px solid black;
 }

@@ -6,12 +6,12 @@ import './LoginPage.css';
 import AuthContext from '../../context/AuthContext';
 import ServicesContext from '../../context/ServicesContext';
 import AppReducerDispatchContext from '../../context/AppReducerDispatchContext';
-import {ACTION_AUTHENTICATION_SUCCESS, ACTION_AUTHENTICATION_FAILURE} from '../../state/appReducer';
+import {ACTION_AUTHENTICATION_SUCCESS, ACTION_AUTHENTICATION_FAILURE} from '../../state/authReducer';
 
 import LoginForm from '../../components/LoginForm/LoginForm';
 
 // https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down
-export default function() {
+export default function LoginPage() {
   const authState = useContext(AuthContext);
   const dispatch = useContext(AppReducerDispatchContext);
   const services = useContext(ServicesContext);
@@ -70,7 +70,7 @@ export default function() {
   return (
     <div className="chat1-loginpage">
       <header>
-          <h1>Login</h1>
+          <h1>Enter your email and password to login</h1>
       </header>
       {elementAuthFailed}
       <LoginForm onHandleLogin={onHandleLogin}/>
