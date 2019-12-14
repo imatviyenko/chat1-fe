@@ -18,17 +18,17 @@ const LoginForm = ({onHandleLogin}) => {
     };
 
     return (
-        <div className="chat1-loginform">
-            <div className="chat1-loginform__row">
-                <span className="chat1-loginform__fieldLabel">User email:</span>
-                <input className="input" type="email" ref={inputRefUserEmail} className="chat1-loginform__fieldInput"></input>
+        <div className="chat1-loginForm">
+            <div className="chat1-loginForm__row">
+                <span className="chat1-loginForm__fieldLabel">User email:</span>
+                <input className="input" type="email" ref={inputRefUserEmail} className="chat1-loginForm__fieldInput"></input>
             </div>
-            <div className="chat1-loginform__row">
-                <span className="chat1-loginform__fieldLabel">Password:</span>
-                <input type="password" minLength={constants.MIN_PASSWORD_LENGTH} ref={inputRefPassword} className="chat1-loginform__fieldInput"></input>
+            <div className="chat1-loginForm__row">
+                <span className="chat1-loginForm__fieldLabel">Password:</span>
+                <input type="password" minLength={constants.MIN_PASSWORD_LENGTH} ref={inputRefPassword} className="chat1-loginForm__fieldInput"></input>
             </div>
-            <div className="chat1-loginform__row chat1-loginform__row_buttons">
-                <button onClick={onClickHandler} className="chat1-loginform__loginButton">Login</button>
+            <div className="chat1-loginForm__row chat1-loginForm__row_buttons">
+                <button onClick={onClickHandler} className="chat1-loginForm__loginButton">Login</button>
             </div>
         </div>
     )

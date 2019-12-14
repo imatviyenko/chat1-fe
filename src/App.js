@@ -9,6 +9,7 @@ import {
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
+import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 import AuthContext from './context/AuthContext';
@@ -35,6 +36,9 @@ function App() {
               <Route path="/login">
                 <LoginPage />
               </Route>
+              <Route path="/register">
+                <RegistrationPage />
+              </Route>              
               <ProtectedRoute path="/profile">
                 <ProfilePage />
               </ProtectedRoute>            

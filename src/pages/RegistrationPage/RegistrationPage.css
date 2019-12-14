@@ -1,0 +1,9 @@
+.chat1-registrationPage {
+  font-weight: bold;
+  text-align: left;
+  padding: 1rem;
+}
+
+.chat1-registrationPage__registrationResult_failure {
+  color: darkred;
+}

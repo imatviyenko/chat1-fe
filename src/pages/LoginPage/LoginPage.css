@@ -1,9 +1,24 @@
-.chat1-loginpage {
+.chat1-loginPage {
   font-weight: bold;
   text-align: left;
   padding: 1rem;
 }
 
-.chat1-loginpage__authFailureMessage {
+.chat1-loginPage__authFailureMessage {
   color: red;
+}
+
+.chat1-loginPage__registerPageLinkSection {
+  width: 20rem;
+  margin-top: 4rem;
+  padding: 4px;
+  border: 1px solid gray;
+  background-color: whitesmoke;
+}
+
+.chat1-loginPage__registerPageLink {
+  margin-top: 2px;
+  font-size: 2rem;
+  font-weight: bold;
+  font-style: italic;
 }

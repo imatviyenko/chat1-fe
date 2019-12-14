@@ -1,8 +1,9 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {useHistory, useLocation} from 'react-router-dom';
+import {useHistory, useLocation, Link} from 'react-router-dom';
 
 import './LoginPage.css';
 
+import constants from '../../constants';
 import AuthContext from '../../context/AuthContext';
 import ServicesContext from '../../context/ServicesContext';
 import AppReducerDispatchContext from '../../context/AppReducerDispatchContext';
@@ -23,16 +24,16 @@ export default function LoginPage() {
   let location = useLocation();
   let { from } = location.state || { from: { pathname: "/" } };
   
-  const [username, setUsername] = useState(null); 
+  const [userEmail, setUserEmail] = useState(null); 
   const [password, setPassword] = useState(null); 
 
   const effectFunc = () => { // effect function cannot be async and should not return Promise!
     const asynFunc = async () => {
-      if (!username || !password) return;
+      if (!userEmail || !password) return;
 
       try {
-        const authResult = await services.authUser(username, password); // try to authenticate the user on the remote back-end server
-        if (authResult.status === 'success') {
+        const authResult = await services.authUser(userEmail, password); // try to authenticate the user on the remote back-end server
+        if (authResult.status === constants.ERROR_SUCCESS) {
           dispatch({type: ACTION_AUTHENTICATION_SUCCESS, token: authResult.tokenAsString}); // notify the app reducer that the user has been successfully authenticated
           history.replace(from); // if auth is succcessfull, return to whatever page we've been redirected from
         } else {
@@ -46,12 +47,12 @@ export default function LoginPage() {
     asynFunc();
   };
 
-  useEffect(effectFunc, [username, password]); // list username and password as the dependency so that EVERY change to its value will invoke the effect function right after the re-render
+  useEffect(effectFunc, [userEmail, password]); // list username and password as the dependency so that EVERY change to its value will invoke the effect function right after the re-render
 
   /* Asynchronous version of click handler */
   // https://gist.github.com/astoilkov/013c513e33fe95fa8846348038d8fe42
-  const onHandleLogin = (username, password) => {
-    setUsername(username);
+  const onHandleLogin = (userEmail, password) => {
+    setUserEmail(userEmail);
     setPassword(password);
   };
 
@@ -60,7 +61,7 @@ export default function LoginPage() {
   console.log(authState);
   const elementAuthFailed = authState && (authState.isAuthenticated === false) && authState.authenticationErrorStatus ?
     (
-      <div className="chat1-loginpage__authFailureMessage">
+      <div className="chat1-loginPage__authFailureMessage">
         Authentication failure: {authState.authenticationErrorStatus}
       </div>
     )
@@ -68,12 +69,20 @@ export default function LoginPage() {
     null;
 
   return (
-    <div className="chat1-loginpage">
+    <div className="chat1-loginPage">
       <header>
           <h1>Enter your email and password to login</h1>
       </header>
       {elementAuthFailed}
       <LoginForm onHandleLogin={onHandleLogin}/>
+      <div className="chat1-loginPage__registerPageLinkSection">
+        <div>
+            New users can register here
+        </div>
+        <div className="chat1-loginPage__registerPageLink">
+          <Link to="/register">Sign up</Link>
+        </div>
+      </div>
     </div>
   );
 }

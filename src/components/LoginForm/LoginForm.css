@@ -1,4 +1,4 @@
-.chat1-loginform {
+.chat1-loginForm {
   padding: 1rem;
   color: black;
   font-weight: bold;
@@ -6,23 +6,23 @@
   width: 30rem;
 }
 
-.chat1-loginform__row {
+.chat1-loginForm__row {
   display: flex;
   flex-direction: row;
   padding-top: 0.3rem;
 }
 
-.chat1-loginform__row_buttons {
+.chat1-loginForm__row_buttons {
   padding-top: 1rem;
   justify-content: center;
 }
 
-.chat1-loginform__fieldLabel {
+.chat1-loginForm__fieldLabel {
   flex-basis: 10rem;
   text-align: left;
 }
 
-.chat1-loginform__fieldInput:invalid {
+.chat1-loginForm__fieldInput:invalid {
   border: 2px solid red;
 }
 

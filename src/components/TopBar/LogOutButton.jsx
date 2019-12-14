@@ -11,6 +11,6 @@ export default function LogOutButton() {
     }
 
     return (
-        <a href={null} className="chat1-topBar__buttonLogout" onClick={onClickHandler}>Log out</a>
+        <a href="#0" className="chat1-topBar__buttonLogout" onClick={onClickHandler}>Log out</a>
     )
 }
