@@ -1,13 +1,7 @@
 import React, {useContext}  from 'react';
 import AuthContext from '../../context/AuthContext';
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect
-} from "react-router-dom";
+import {Route, Redirect} from "react-router-dom";
 
 // https://reacttraining.com/react-router/web/example/auth-workflow
 export default function ({children, ...rest}) {

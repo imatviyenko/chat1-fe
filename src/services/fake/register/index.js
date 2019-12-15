@@ -1,35 +1,44 @@
 import constants from '../../../constants';
 
-import {getUserProfileByEmail} from '../profile';
-import {sendRegistrationConfirmationEmail} from '../email';
 const timeoutInSeconds = 5;
 
-export async function registerUser(userDisplayName, userEmail, password) {
+export async function registerUser(userDisplayName, userEmail, password, code) {
     console.log('registerUser -> userEmail: ', userEmail);
 
-    // check if such a user already exists
-    const existingUserProfile = await getUserProfileByEmail(userEmail);
-    console.log('registerUser -> existingUserProfile: ', existingUserProfile);
+    const result  = {
+        status: constants.ERROR_SUCCESS
+    };
 
-    let result;
-    if (existingUserProfile && (existingUserProfile.status === constants.PROFILE_STATUS_ACTIVE || existingUserProfile.status === constants.PROFILE_STATUS_DISABLED) ) {
-        result = {status: constants.ERROR_REGISTRATION_USER_ALREADY_EXISTS};
-    } else {
-        try {
-            // TODO: Save user in the database with 'PROFILE_STATUS_CONFIRMATION_PENDING' status
-
-            
-            const sendEmailResult = await sendRegistrationConfirmationEmail(userDisplayName, userEmail);
-            if (!sendEmailResult || sendEmailResult.status !== constants.ERROR_SUCCESS) {
-                result = {status: constants.ERROR_REGISTRATION_EMAIL_SENDING_FAILURE};
-            }
-        } catch(sendEmailError) {
-            result = {status: constants.ERROR_REGISTRATION_EMAIL_SENDING_FAILURE};
-        };
-        result = {status: constants.ERROR_SUCCESS};
+    if (code) {
+        result.token = `email:${userEmail}`;
     }
 
     return new Promise( (resolve, reject) => {
         setTimeout(resolve(result), timeoutInSeconds * 1000);
     });
+}
+
+
+export async function getEmailFromCode(code) {
+    console.log('getEmailFromCode -> code: ', code);
+
+    const SECRET = 'SECRET.';
+
+    let result;
+    if (code && code.includes(SECRET)) {
+        console.log('getEmailFromCode -> code is valid');
+        const emailFromCode = code.split(SECRET)[1];
+        result = {
+            status: constants.ERROR_SUCCESS,
+            email: emailFromCode
+        }
+    } else {
+        result = {
+            status: constants.ERROR_REGISTRATION_INVALID_CODE
+        };
+    }
+
+    return new Promise( (resolve, reject) => {
+        setTimeout(resolve(result), timeoutInSeconds * 1000);
+    });    
 }

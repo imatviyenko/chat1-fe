@@ -14,7 +14,13 @@
 
 .chat1-loginForm__row_buttons {
   padding-top: 1rem;
-  justify-content: center;
+  justify-content: flex-start;
+}
+
+.chat1-loginForm__loginButton {
+  padding: 6px;
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
 .chat1-loginForm__fieldLabel {

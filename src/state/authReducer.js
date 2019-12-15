@@ -15,7 +15,6 @@ export default function (state, action) {
                 authenticationErrorStatus: null,
                 token: action.token
             };
-            break;
 
         case ACTION_AUTHENTICATION_FAILURE:
             return {
@@ -24,7 +23,6 @@ export default function (state, action) {
                 authenticationErrorStatus: action.status,
                 token: null
             };
-        break;
 
 
         case ACTION_AUTHENTICATION_LOGOUT:
@@ -34,7 +32,6 @@ export default function (state, action) {
                 authenticationErrorStatus: null,
                 token: null
             };
-        break;
 
         default:
             return state;

@@ -21,7 +21,7 @@ const LoginForm = ({onHandleLogin}) => {
         <div className="chat1-loginForm">
             <div className="chat1-loginForm__row">
                 <span className="chat1-loginForm__fieldLabel">User email:</span>
-                <input className="input" type="email" ref={inputRefUserEmail} className="chat1-loginForm__fieldInput"></input>
+                <input type="email" ref={inputRefUserEmail} className="chat1-loginForm__fieldInput"></input>
             </div>
             <div className="chat1-loginForm__row">
                 <span className="chat1-loginForm__fieldLabel">Password:</span>

@@ -34,7 +34,7 @@ export default function LoginPage() {
       try {
         const authResult = await services.authUser(userEmail, password); // try to authenticate the user on the remote back-end server
         if (authResult.status === constants.ERROR_SUCCESS) {
-          dispatch({type: ACTION_AUTHENTICATION_SUCCESS, token: authResult.tokenAsString}); // notify the app reducer that the user has been successfully authenticated
+          dispatch({type: ACTION_AUTHENTICATION_SUCCESS, token: authResult.token}); // notify the app reducer that the user has been successfully authenticated
           history.replace(from); // if auth is succcessfull, return to whatever page we've been redirected from
         } else {
           dispatch({type: ACTION_AUTHENTICATION_FAILURE, status: authResult.status}); // notify the app reducer that the user has been successfully authenticated

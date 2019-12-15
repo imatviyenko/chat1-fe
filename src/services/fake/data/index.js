@@ -1,7 +1,14 @@
-import constants from '../../../constants';
-import fakeUsers from '../data/users';
+import fakeUsers from './fakeUsers';
+import fakeData_Collection1 from './fakeCollection1';
 
 const timeoutInSeconds = 5;
+
+// Get sample data - fake implementation
+export async function getCollection1Items() {
+    return new Promise( (resolve, reject) => {
+        setTimeout(resolve(fakeData_Collection1), timeoutInSeconds * 1000);
+    });
+}
 
 export async function getUserProfileByEmail(email) {
     const emailLowerCase = email.toLowerCase();

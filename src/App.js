@@ -19,7 +19,15 @@ import initialAppState from './state/initialAppState';
 import appReducer from './state/appReducer';
 
 
-import services from './services/fake'; 
+import fakeServices from './services/fake'; 
+import prodServices from './services/prod'; 
+
+let services;
+if (process.env.NODE_ENV === 'production') {
+  services = prodServices;
+} else {
+  services =  (process.env.REACT_APP_SERVICES_MODE === 'production') ? prodServices : fakeServices;
+}
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialAppState);
@@ -36,9 +44,12 @@ function App() {
               <Route path="/login">
                 <LoginPage />
               </Route>
+              <Route path="/register/:code">
+                <RegistrationPage />
+              </Route>
               <Route path="/register">
                 <RegistrationPage />
-              </Route>              
+              </Route>
               <ProtectedRoute path="/profile">
                 <ProfilePage />
               </ProtectedRoute>            
