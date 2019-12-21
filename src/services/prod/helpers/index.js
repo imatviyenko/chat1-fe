@@ -1,5 +1,16 @@
 import constants from '../../../constants';
 
+const getServerErrorResult = async response => {
+    const result = {status: constants.ERROR_GENERIC_SERVER_FAILURE};
+    try {
+        const json = await response.json();
+        console.error(`getServerErrorResult -> json: ${JSON.stringify(json)}`);
+        if (json.status) result.status = json.status;
+    } catch {};
+    return result;
+};
+
+
 export async function callApiEndpoint(path, method, body, token) {
     const url = this.apiUrl.replace(/\/$/, '') + '/' + path;
     const headers = {
@@ -19,6 +30,8 @@ export async function callApiEndpoint(path, method, body, token) {
     let result;
     try {
         const response = await fetch(url, options);
+        if (!response.ok) return await getServerErrorResult(response);
+
         const json = await response.json();
         console.log('callApiEndpoint -> json:');
         console.log(json);

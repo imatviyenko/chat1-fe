@@ -10,6 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
+import ConfirmationPage from './pages/ConfirmationPage/ConfirmationPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 import AuthContext from './context/AuthContext';
@@ -49,6 +50,9 @@ function App() {
               </Route>
               <Route path="/register">
                 <RegistrationPage />
+              </Route>
+              <Route path="/confirm/:code">
+                <ConfirmationPage />
               </Route>
               <ProtectedRoute path="/profile">
                 <ProfilePage />

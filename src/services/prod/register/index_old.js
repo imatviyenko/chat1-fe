@@ -32,7 +32,7 @@ export async function registerUser(userDisplayName, userEmail, password, code) {
 
         if (shouldSendEmail) {
             try {
-                const sendEmailResult = await sendRegistrationConfirmationEmail(userDisplayName, userEmail);
+                const sendEmailResult = await sendRegistrationConfirmationEmail(userEmail, userDisplayName);
                 if (!sendEmailResult || sendEmailResult.status !== constants.ERROR_SUCCESS) {
                     result = {status: constants.ERROR_REGISTRATION_EMAIL_SENDING_FAILURE};
                 } else {

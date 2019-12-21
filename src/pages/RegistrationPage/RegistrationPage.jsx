@@ -52,12 +52,13 @@ export default function RegistrationPage() {
       // If the current URL contains code param with encrypted email address, then it must be a new user which came to the site via a registration invitaion link sent by another already registered user.
       // In this case we DO NOT need to confirm his email and if services.registerUser returns succcess status and a token, then the user must be logged in immediatelly
       try {
-        const result = await services.registerUser(userDisplayName, userEmail, password, code); // try to register the user on the remote back-end server and use the encrypted code from the URL
+        const result = await services.registerUser(userEmail, userDisplayName, password, code); // try to register the user on the remote back-end server and use the encrypted code from the URL
         if (result.status === constants.ERROR_SUCCESS && result.token && code) { // no need to confirm email address and we can log in the user to the system
           dispatch({type: ACTION_AUTHENTICATION_SUCCESS, token: result.token}); // notify the app reducer that the user has been successfully authenticated
           history.replace({ pathname: "/" }); // if we got a token from services.registerUser, log in the user and redirect to the Home page
+        } else {
+          setRegistrationStatus(result.status);
         }
-        setRegistrationStatus(result.status);
       } catch (e) {
         console.error('RegistrationPage -> error in asyncFunc:');
         console.error(e);

@@ -2,15 +2,15 @@ import constants from '../../../constants';
 
 const timeoutInSeconds = 5;
 
-export async function registerUser(userDisplayName, userEmail, password, code) {
-    console.log('registerUser -> userEmail: ', userEmail);
+export async function registerUser(email, displayName, password, code) {
+    console.log('registerUser -> email: ', email);
 
     const result  = {
         status: constants.ERROR_SUCCESS
     };
 
     if (code) {
-        result.token = `email:${userEmail}`;
+        result.token = `email:${email}`;
     }
 
     return new Promise( (resolve, reject) => {

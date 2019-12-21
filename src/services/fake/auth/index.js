@@ -3,10 +3,10 @@ import fakeUsers from '../data/fakeUsers';
 
 const timeoutInSeconds = 5;
 
-export async function authUser(userEmail, password) {
-    console.log('authUser -> userEmail: ', userEmail);
-    const userEmailLowercase = userEmail.toLowerCase();
-    const matchedUser = fakeUsers.find( u => u.status === constants.USER_STATUS_ACTIVE && u.email.toLowerCase() === userEmailLowercase);
+export async function authUser(email, password) {
+    console.log('authUser -> email: ', email);
+    const emailLowercase = email.toLowerCase();
+    const matchedUser = fakeUsers.find( u => u.status === constants.USER_STATUS_ACTIVE && u.email.toLowerCase() === emailLowercase);
 
     let result;
     if (matchedUser && matchedUser.password === password) {

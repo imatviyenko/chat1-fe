@@ -2,7 +2,7 @@ import constants from '../../../constants';
 
 const timeoutInSeconds = 5;
 
-export async function sendRegistrationConfirmationEmail(displayName, email) {
+export async function sendRegistrationConfirmationEmail(email, displayName) {
     const secret = `SECRET.${email}`;
     const confirmationLink = `http://localhost:3000/confirm?secret=${secret}`;
     console.log('*************************************************');

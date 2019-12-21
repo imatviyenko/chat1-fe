@@ -1,0 +1,9 @@
+.chat1-confirmationPage {
+  font-weight: bold;
+  text-align: left;
+  padding: 1rem;
+}
+
+.chat1-confirmationPage__confirmationResult_failure {
+  color: darkred;
+}
