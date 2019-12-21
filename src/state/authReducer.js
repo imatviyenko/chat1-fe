@@ -3,7 +3,7 @@ export const ACTION_AUTHENTICATION_FAILURE = 'ACTION_AUTHENTICATION_FAILURE';
 export const ACTION_AUTHENTICATION_LOGOUT = 'ACTION_AUTHENTICATION_LOGOUT';
 
 export default function (state, action) {
-    console.log(`authReducer -> action: ${action}`);
+    console.log(`authReducer -> action: ${JSON.stringify(action)}`);
     console.log(`authReducer -> action.type: ${action.type}`);
 
     switch (action.type) {

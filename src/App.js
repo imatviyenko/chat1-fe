@@ -14,6 +14,7 @@ import ConfirmationPage from './pages/ConfirmationPage/ConfirmationPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 import AuthContext from './context/AuthContext';
+import ContactsContext from './context/ContactsContext';
 import ServicesContext from './context/ServicesContext';
 import AppReducerDispatchContext from './context/AppReducerDispatchContext';
 import initialAppState from './state/initialAppState';
@@ -32,13 +33,15 @@ if (process.env.NODE_ENV === 'production') {
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialAppState);
+  services.setAuthContext(state.auth);
 
-  //console.log('App -> services:');
-  //console.log(services);
+  console.log('App -> state:');
+  console.log(state);
 
   return (
     <AppReducerDispatchContext.Provider value={dispatch}>
     <AuthContext.Provider value={state.auth}>
+    <ContactsContext.Provider value={state.contacts}>
     <ServicesContext.Provider value={services}>
       <Router>
           <Switch>
@@ -63,6 +66,7 @@ function App() {
         </Switch>
       </Router>
     </ServicesContext.Provider>
+    </ContactsContext.Provider>
     </AuthContext.Provider>
     </AppReducerDispatchContext.Provider>
   );

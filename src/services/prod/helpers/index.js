@@ -27,13 +27,15 @@ export async function callApiEndpoint(path, method, body, token) {
         body: body ? JSON.stringify(body) : null
     };
 
+    console.log(`callApiEndpoint -> url: ${url}, method: ${method}, token: ${token}`);
+
     let result;
     try {
         const response = await fetch(url, options);
         if (!response.ok) return await getServerErrorResult(response);
 
         const json = await response.json();
-        console.log('callApiEndpoint -> json:');
+        console.log('callApiEndpoint -> response json:');
         console.log(json);
         result = json;
     } catch (fetchError) {

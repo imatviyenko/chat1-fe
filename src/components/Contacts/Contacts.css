@@ -1,5 +1,36 @@
 .chat1-contacts {
     text-align: left;
-    background-color: lightgreen;
+    /*background-color: lightgreen;*/
   }
-  
+
+.chat1-contacts__content {
+}
+.chat1-contacts__contentRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.chat1-contacts__contentColumn {
+}
+
+.chat1-contacts__fieldLabel {
+  font-weight: bold;
+}
+
+.chat1-contacts__fieldInput {
+  margin-left: 0.2rem;
+  width: 30rem;
+}
+
+.chat1-contacts__fieldInput:invalid {
+  border: 2px solid red;
+}
+
+.chat1-contacts__button_addUser {
+  margin-left: 0.2rem;
+  font-weight: bold;
+}
+
+.chat1-contacts__userList {
+  width: 100%;
+}
