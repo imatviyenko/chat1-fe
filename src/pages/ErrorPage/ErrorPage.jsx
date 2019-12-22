@@ -5,9 +5,9 @@ import './ErrorPage.css';
 import TopBar from '../../components/TopBar/TopBar'; // TopBar component
 import AppContext from '../../context/AppContext';
 
-export default function ProfilePage() {
+export default function ErrorPage() {
   const error = useContext(AppContext).error;
-  console.log(`ProfilePage -> error: ${JSON.stringify(error)}`);
+  console.log(`ErrorPage -> error: ${JSON.stringify(error)}`);
 
   return (
       <div className="chat1-errorPage">

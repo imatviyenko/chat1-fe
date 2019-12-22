@@ -1,5 +1,31 @@
 .chat1-chats {
-    text-align: left;
-    background-color: lightpink;
-  }
+  text-align: left;
+  background-color: lightpink;
+}
   
+
+.chat1-chats__content {
+
+}
+
+.chat1-chats__chatsList {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+  line-height: 1.5;
+  width: 100%;
+  height: 10rem;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  border: inset gray 2px;
+  background-color: azure;
+}
+
+.chat1-chats__chatDispayName {
+}
+
+.chat1-chats__chatDispayName_private {
+}
+
+.chat1-chats__chatDispayName_group {
+}

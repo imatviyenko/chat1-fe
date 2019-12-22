@@ -1,7 +1,4 @@
-import React, {useContext} from 'react';
-
-import AppReducerDispatchContext from '../../context/AppReducerDispatchContext';
-import {ACTION_AUTHENTICATION_LOGOUT} from '../../state/authReducer';
+import React from 'react';
 
 import './ContactsList.css';
 import constants from '../../constants';

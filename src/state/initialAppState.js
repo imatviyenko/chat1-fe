@@ -2,9 +2,11 @@ const initialState = {
     auth: {
         isAuthenticated: false
     },
+    profile: {      
+    },    
     contacts: {
     },
-    profile: {      
+    chats: {
     }
 };
 

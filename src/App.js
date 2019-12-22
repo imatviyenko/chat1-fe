@@ -21,6 +21,7 @@ import ServicesContext from './context/ServicesContext';
 
 // Contexts for accessing slices of the app state
 import ContactsContext from './context/ContactsContext';
+import ChatsContext from './context/ChatsContext';
 
 
 import initialAppState from './state/initialAppState';
@@ -45,10 +46,11 @@ function App() {
   console.log(state);
 
   return (
-    <AppReducerDispatchContext.Provider value={dispatch}>
     <AppContext.Provider value={state}>
-    <ContactsContext.Provider value={state.contacts}>
+    <AppReducerDispatchContext.Provider value={dispatch}>
     <ServicesContext.Provider value={services}>
+    <ContactsContext.Provider value={state.contacts}>
+    <ChatsContext.Provider value={state.chats}>
       <Router>
           <Switch>
               <Route path="/login">
@@ -74,10 +76,12 @@ function App() {
               </ProtectedRoute>
         </Switch>
       </Router>
-    </ServicesContext.Provider>
+    </ChatsContext.Provider>
     </ContactsContext.Provider>
-    </AppContext.Provider>
+    </ServicesContext.Provider>
     </AppReducerDispatchContext.Provider>
+    </AppContext.Provider>
+    
   );
 }
 

@@ -1,4 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 
 import constants from '../../constants';
 
@@ -10,12 +11,11 @@ import {ACTION_APP_ERROR} from '../../state/appReducer';
 import {ACTION_CONTACT_ADD, ACTION_CONTACT_REMOVE, ACTION_CONTACT_FETCH_ALL} from '../../state/contactsReducer';
 
 import ContactsList from './ContactsList';
-
-
 import './Contacts.css';
 
-
 function Contacts() {
+    let history = useHistory();
+
     const dispatch = useContext(AppReducerDispatchContext);
     const services = useContext(ServicesContext);
     const [newContactEmail, setNewContactEmail] = useState(null);
@@ -32,7 +32,8 @@ function Contacts() {
     const effectFunc1 = () => { 
         const asynFunc = async () => {
           console.log(`effect1 ->  newContactEmail: ${newContactEmail}`);
-          if (!addContactFlippingFlag || !newContactEmail) return;
+          console.log(`effect1 ->  addContactFlippingFlag: ${addContactFlippingFlag}`);
+          if (addContactFlippingFlag === null || !newContactEmail) return;
 
           const newContactEmailLowerCase = newContactEmail.toLowerCase();
           if (newContactEmailLowerCase === profile.email) return; // cannot add self to the contacts
@@ -46,7 +47,9 @@ function Contacts() {
             if (result.status === constants.ERROR_SUCCESS) {
               dispatch({type: ACTION_CONTACT_ADD, contact: result.contact});
             } else {
-              dispatch({type: ACTION_APP_ERROR, status: result.status}); // notify the app reducer that there has been an application error
+              dispatch({type: ACTION_APP_ERROR, message: 'Error fetching contacts', result}); // notify the app reducer that there has been an application error
+              history.replace({ pathname: '/error'});
+              return;
             }
           } catch (e) {
             console.error('Contacts -> error in effectFunc1:');

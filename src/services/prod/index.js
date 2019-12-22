@@ -1,10 +1,12 @@
 import * as helpers from './helpers';
 import * as authExports from './auth';
+import * as profileExports from './profile';
 import * as registerExports from './register';
 import * as dataExports from './data';
 import * as emailExports from './email';
 import * as contactsExports from './contacts';
-import * as profileExports from './profile';
+import * as chatsExports from './chats';
+
 
 
 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001/'; // get back-end API URL via the environment variable REACT_APP_API_URL
@@ -20,11 +22,12 @@ const services = {
     setAuthContext,
     ...helpers,
     ...authExports,
+    ...profileExports,
     ...registerExports,
     ...dataExports,
     ...emailExports,
     ...contactsExports,
-    ...profileExports
+    ...chatsExports
 }
 
 export default services;

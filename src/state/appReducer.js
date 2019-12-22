@@ -1,6 +1,8 @@
 import authReducer from "./authReducer";
-import contactsReducer from "./contactsReducer";
 import profileReducer from "./profileReducer";
+import contactsReducer from "./contactsReducer";
+import chatsReducer from "./chatsReducer";
+
 
 export const ACTION_APP_ERROR = 'ACTION_APP_ERROR';
 
@@ -21,8 +23,10 @@ export default function (state, action) {
     };
 
     return {
+        ...state,
         auth: authReducer(state.auth, action),
+        profile: profileReducer(state.profile, action),
         contacts: contactsReducer(state.contacts, action),
-        profile: profileReducer(state.profile, action)
+        chats: chatsReducer(state.chats, action)
     }
 }
