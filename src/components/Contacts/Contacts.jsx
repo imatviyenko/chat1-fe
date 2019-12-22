@@ -1,6 +1,8 @@
 import React, {useState, useContext, useEffect} from 'react';
 
 import constants from '../../constants';
+
+import AppContext from '../../context/AppContext';
 import ServicesContext from '../../context/ServicesContext';
 import ContactsContext from '../../context/ContactsContext';
 import AppReducerDispatchContext from '../../context/AppReducerDispatchContext';
@@ -17,8 +19,10 @@ function Contacts() {
     const dispatch = useContext(AppReducerDispatchContext);
     const services = useContext(ServicesContext);
     const [newContactEmail, setNewContactEmail] = useState(null);
-    const [addContactFireOnceFlag, setAddContactFireOnceFlag] = useState(false);
+    const [addContactFlippingFlag, setAddContactFlippingFlag] = useState(null);
+    console.log(`Contacts -> addContactFlippingFlag: ${addContactFlippingFlag}`);
     
+    const profile = useContext(AppContext).profile;
     const contacts = useContext(ContactsContext);
     const contactsList = contacts && contacts.contactsList;
     console.log(`Contacts -> contacts: ${JSON.stringify(contacts)}`);
@@ -27,7 +31,15 @@ function Contacts() {
     // effect for adding a new contact for the current user when "Add contact" button is pressed
     const effectFunc1 = () => { 
         const asynFunc = async () => {
-          if (!addContactFireOnceFlag || !newContactEmail) return;
+          console.log(`effect1 ->  newContactEmail: ${newContactEmail}`);
+          if (!addContactFlippingFlag || !newContactEmail) return;
+
+          const newContactEmailLowerCase = newContactEmail.toLowerCase();
+          if (newContactEmailLowerCase === profile.email) return; // cannot add self to the contacts
+
+          const existingContact = Array.isArray(contacts.contactsList) && contacts.contactsList.find( c => c.email.toLowerCase() === newContactEmailLowerCase);
+          console.log(`effect1 -> existingContact: ${JSON.stringify(existingContact)}`);
+          if (existingContact) return; // contact with such email already exists
 
           try {
             const result = await services.addContact(newContactEmail);
@@ -44,7 +56,7 @@ function Contacts() {
         }
         asynFunc();
     };
-    useEffect(effectFunc1, [addContactFireOnceFlag]); // run whenever addContactFireOnceFlag value is changed
+    useEffect(effectFunc1, [addContactFlippingFlag]); // run whenever addContactFireMultipleTimesFlag value is changed
 
 
     // effect for fetching the list of contacts for the current user
@@ -69,21 +81,17 @@ function Contacts() {
 
     return (
         <div className="chat1-contacts">
-            <h3>My Contacts</h3>
-            <div className="chat1-contacts__content">
-                <div className="chat1-contacts__contentRow">
-                    <div className="chat1-contacts__contentColumn">
-                        <span className="chat1-contacts__fieldLabel">Email:</span>
-                        <input type="email" className="chat1-contacts__fieldInput" onChange={ e => setNewContactEmail(e.target.value) }></input>
-                        <button className="chat1-contacts__button_addUser" onClick={ () => setAddContactFireOnceFlag(true)}>Add user</button>
-                    </div>
-                    <div>
-                        <ContactsList contactsList={contactsList} />
-                    </div>
-                </div>
-                <div>
-                </div>
+          <h3>My Contacts</h3>
+          <div className="chat1-contacts__content">
+            <div className="chat1-contacts__row1">
+                <span className="chat1-contacts__fieldLabel">Email:</span>
+                <input type="email" className="chat1-contacts__fieldInput" onChange={ e => setNewContactEmail(e.target.value) }></input>
+                <button className="chat1-contacts__button_addUser" onClick={ () => setAddContactFlippingFlag(!addContactFlippingFlag)}>Add user</button>
             </div>
+            <div className="chat1-contacts__row2">
+                <ContactsList contactsList={contactsList} />
+            </div>
+          </div>
         </div>
     );
 }

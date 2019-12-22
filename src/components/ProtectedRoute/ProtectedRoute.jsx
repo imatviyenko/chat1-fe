@@ -1,19 +1,19 @@
 import React, {useContext}  from 'react';
-import AuthContext from '../../context/AuthContext';
+import AppContext from '../../context/AppContext';
 
 import {Route, Redirect} from "react-router-dom";
 
 // https://reacttraining.com/react-router/web/example/auth-workflow
 export default function ({children, ...rest}) {
-    const authContext = useContext(AuthContext);
-    console.log('ProtectedRoute -> authContext:');
-    console.log(authContext);
+    const auth = useContext(AppContext).auth;
+    console.log('ProtectedRoute -> auth:');
+    console.log(auth);
 
     return (
         <Route
           {...rest}
           render = {({ location }) =>
-            authContext && authContext.isAuthenticated ? (
+            auth && auth.isAuthenticated ? (
               children
             ) : (
               <Redirect

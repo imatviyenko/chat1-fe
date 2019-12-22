@@ -3,11 +3,25 @@ import React, {useContext} from 'react';
 import AppReducerDispatchContext from '../../context/AppReducerDispatchContext';
 import {ACTION_AUTHENTICATION_LOGOUT} from '../../state/authReducer';
 
+import './ContactsList.css';
+import constants from '../../constants';
+
 const mapFunc = contact => {
+    if (!contact || !contact.email || !contact.status) return null;
+    
+    let className = contact.status === constants.USER_STATUS_ACTIVE ? 
+        "chat1-contacts__contactDispayName chat1-contacts__contactDispayName_active"
+        :
+        "chat1-contacts__contactDispayName chat1-contacts__contactDispayName_inactive";
+
+    const displayName = contact.displayName ?
+        `${contact.displayName} <${contact.email}>` 
+        :
+        contact.email;
     return (
-        <option>
-            {contact && contact.email}
-        </option>
+        <li className={className} key={contact.email}>
+            {displayName}
+        </li>
     );
 }
 
@@ -16,8 +30,8 @@ export default function ContactsList({contactsList}) {
     console.log(`ContactsList -> contactsList: ${JSON.stringify(contactsList)}`);
 
     return (
-        <select className="" size="5">
+        <ul className="chat1-contacts__contactsList">
             {Array.isArray(contactsList) && contactsList.map(mapFunc)}
-        </select>
+        </ul>
     )
 }

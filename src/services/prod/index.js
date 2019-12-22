@@ -4,6 +4,7 @@ import * as registerExports from './register';
 import * as dataExports from './data';
 import * as emailExports from './email';
 import * as contactsExports from './contacts';
+import * as profileExports from './profile';
 
 
 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001/'; // get back-end API URL via the environment variable REACT_APP_API_URL
@@ -22,7 +23,8 @@ const services = {
     ...registerExports,
     ...dataExports,
     ...emailExports,
-    ...contactsExports
+    ...contactsExports,
+    ...profileExports
 }
 
 export default services;

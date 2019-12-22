@@ -1,0 +1,23 @@
+.chat1-contacts__contactsList {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+  line-height: 1.5;
+  width: 100%;
+  height: 10rem;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  border: inset gray 2px;
+  background-color: azure;
+}
+
+
+.chat1-contacts__contactDispayName {
+}
+
+.chat1-contacts__contactDispayName_active {
+}
+
+.chat1-contacts__contactDispayName_inactive {
+  color: grey;
+}

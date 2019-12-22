@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import './TopBar.css';
 import logo from './logo.ico';
 import LogOutButton from './LogOutButton';
+import ProfileLink from './ProfileLink';
 
 function TopBar() {
     return (
@@ -24,7 +25,8 @@ function TopBar() {
 
             <div className="chat1-topBar__rightSection">
                 <div className="chat1-topBar__rightSectionElement">
-                    <Link to="/profile">My Profile</Link>
+                    
+                    <ProfileLink />
                 </div>
                 <div className="chat1-topBar__rightSectionElement">
                     <LogOutButton />

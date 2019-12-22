@@ -6,6 +6,7 @@ const getServerErrorResult = async response => {
         const json = await response.json();
         console.error(`getServerErrorResult -> json: ${JSON.stringify(json)}`);
         if (json.status) result.status = json.status;
+        if (json.message) result.message = json.message;
     } catch {};
     return result;
 };

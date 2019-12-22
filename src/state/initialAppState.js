@@ -1,6 +1,10 @@
 const initialState = {
     auth: {
         isAuthenticated: false
+    },
+    contacts: {
+    },
+    profile: {      
     }
 };
 

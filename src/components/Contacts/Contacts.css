@@ -5,12 +5,16 @@
 
 .chat1-contacts__content {
 }
-.chat1-contacts__contentRow {
-  display: flex;
-  flex-direction: row;
+
+.chat1-contacts__row1 {
 }
 
-.chat1-contacts__contentColumn {
+.chat1-contacts__row2 {
+  margin-top: 1rem;
+}
+
+
+.chat1-contacts__buttons {
 }
 
 .chat1-contacts__fieldLabel {
@@ -29,8 +33,4 @@
 .chat1-contacts__button_addUser {
   margin-left: 0.2rem;
   font-weight: bold;
-}
-
-.chat1-contacts__userList {
-  width: 100%;
 }

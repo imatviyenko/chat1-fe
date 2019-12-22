@@ -1,2 +1,16 @@
 .chat1-profilePage {
+    padding: 1rem;
+}
+
+
+.chat1-profilePage__row {
+    display: flex;
+    flex-direction: row;
+    padding-top: 0.3rem;
+}
+
+.chat1-profilePage__fieldLabel {
+    flex-basis: 18rem;
+    text-align: left;
+    font-weight: bold;
 }

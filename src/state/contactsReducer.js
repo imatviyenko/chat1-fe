@@ -3,10 +3,17 @@ export const ACTION_CONTACT_REMOVE = 'ACTION_CONTACT_REMOVE';
 export const ACTION_CONTACT_FETCH_ALL = 'ACTION_CONTACT_FETCH_ALL';
 
 function addContact(contacts, contact) {
+    console.log(`addContact -> contacts: ${JSON.stringify(contacts)}`);
+    console.log(`addContact -> contact: ${JSON.stringify(contact)}`);
+
     const newContacts = Array.isArray(contacts) ? [...contacts] : [];
     if (newContacts.find(c => c.email === contact.email)) return;
     newContacts.push(contact);
-    return newContacts.sort( (c1, c2) => c1.displayName.localeCompare(c2.displayName));
+    return newContacts.sort( (c1, c2) => {
+        const c1DisplayName = c1.displayName || c1.email;
+        const c2DisplayName = c2.displayName || c2.email;
+        return c1DisplayName.localeCompare(c2DisplayName);
+    });
 }
 
 

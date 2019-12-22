@@ -12,11 +12,17 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import ConfirmationPage from './pages/ConfirmationPage/ConfirmationPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
 
-import AuthContext from './context/AuthContext';
-import ContactsContext from './context/ContactsContext';
-import ServicesContext from './context/ServicesContext';
+// Contexts for accessing global app level objects
+import AppContext from './context/AppContext';
 import AppReducerDispatchContext from './context/AppReducerDispatchContext';
+import ServicesContext from './context/ServicesContext';
+
+// Contexts for accessing slices of the app state
+import ContactsContext from './context/ContactsContext';
+
+
 import initialAppState from './state/initialAppState';
 import appReducer from './state/appReducer';
 
@@ -40,7 +46,7 @@ function App() {
 
   return (
     <AppReducerDispatchContext.Provider value={dispatch}>
-    <AuthContext.Provider value={state.auth}>
+    <AppContext.Provider value={state}>
     <ContactsContext.Provider value={state.contacts}>
     <ServicesContext.Provider value={services}>
       <Router>
@@ -57,6 +63,9 @@ function App() {
               <Route path="/confirm/:code">
                 <ConfirmationPage />
               </Route>
+              <Route path="/error">
+                <ErrorPage />
+              </Route>
               <ProtectedRoute path="/profile">
                 <ProfilePage />
               </ProtectedRoute>            
@@ -67,7 +76,7 @@ function App() {
       </Router>
     </ServicesContext.Provider>
     </ContactsContext.Provider>
-    </AuthContext.Provider>
+    </AppContext.Provider>
     </AppReducerDispatchContext.Provider>
   );
 }
