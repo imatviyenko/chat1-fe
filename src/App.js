@@ -27,16 +27,8 @@ import ChatsContext from './context/ChatsContext';
 import initialAppState from './state/initialAppState';
 import appReducer from './state/appReducer';
 
-
-import fakeServices from './services/fake'; 
 import prodServices from './services/prod'; 
-
-let services;
-if (process.env.NODE_ENV === 'production') {
-  services = prodServices;
-} else {
-  services =  (process.env.REACT_APP_SERVICES_MODE === 'production') ? prodServices : fakeServices;
-}
+const services = prodServices;
 
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialAppState);

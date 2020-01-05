@@ -48,6 +48,15 @@ export default function LoginPage() {
             return;
           };
 
+          // establish authenticated WebSocket connection to the back-end server
+          const webSocketResult = await services.watcher.connect(authResult.token);
+          if (webSocketResult.status !== constants.ERROR_SUCCESS) {
+            dispatch({type: ACTION_APP_ERROR, message: 'Error establishing WebSocket connection to the back-end server', result}); // notify the app reducer that there has been an application error
+            history.replace({ pathname: '/error'});
+            return;
+          };
+
+
           history.replace(from); // if auth is succcessfull, return to whatever page we've been redirected from
         } else {
           dispatch({type: ACTION_AUTHENTICATION_FAILURE, status: authResult.status}); // notify the app reducer that authentication failed
