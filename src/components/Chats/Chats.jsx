@@ -69,7 +69,7 @@ function Chats() {
           <h3>Chats</h3>
           <div className="chat1-chats__content">
             <ul className="chat1-chats__chatsList">
-                {Array.isArray(chats.chatsList) && chats.chatsList.map(mapFunc)}
+                {Array.isArray(chatsList) && chatsList.map(mapFunc)}
             </ul>
           </div>
         </div>

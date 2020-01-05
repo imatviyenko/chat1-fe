@@ -11,6 +11,7 @@ export const ACTION_APP_ERROR = 'ACTION_APP_ERROR';
 export default function (state, action) {
     console.log(`appReducer -> action: ${JSON.stringify(action)}`);
     console.log(`appReducer -> action.type: ${action.type}`);
+    console.log(`appReducer -> state: ${JSON.stringify(state)}`);
 
     if (action.type === ACTION_APP_ERROR) {
         return {
@@ -27,6 +28,6 @@ export default function (state, action) {
         auth: authReducer(state.auth, action),
         profile: profileReducer(state.profile, action),
         contacts: contactsReducer(state.contacts, action),
-        chats: chatsReducer(state.chats, action)
+        chats: chatsReducer(state.chats, action, state.contacts, state.profile)
     }
 }
