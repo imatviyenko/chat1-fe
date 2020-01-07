@@ -1,5 +1,6 @@
 import constants from '../../../constants';
 import {ACTION_CONTACT_ONLINE, ACTION_CONTACT_OFFLINE, ACTION_CONTACT_REFRESH} from '../../../state/contactsReducer';
+import {ACTION_AUTHENTICATION_LOGOUT} from '../../../state/authReducer';
 
 function setDispatch(dispatch) {
     console.log(`watcher.setDispatch invoked`);
@@ -18,10 +19,11 @@ function connect(token) {
         // Hack -> send jwt token string as WebSocket "sec-websocket-protocol" header
         this.connection = new WebSocket(webSocketServerUrl, token);
         this.connection.onopen = this.onOpen.bind(this);
+        this.connection.onclose = this.onClose.bind(this);
         this.connection.onerror = this.onError.bind(this);
         this.connection.onmessage = this.onMessage.bind(this);
     
-        return {
+       return {
             status: constants.ERROR_SUCCESS
         };
     
@@ -36,6 +38,7 @@ function connect(token) {
 function disconnect() {
     console.log(`watcher.disconnect invoked`);
     if (!this.connection) return;
+    if (this.connection.readyState !== 1) return;
 
     try {
         this.connection.close();
@@ -59,12 +62,18 @@ function sendMessage(message) {
 
 function onOpen() {
     console.log(`watcher.onOpen invoked`);
-    
     this.connection.send('hey');
 }
 
+function onClose() {
+    console.log(`watcher.onClose invoked`);
+    this.dispatch({type: ACTION_AUTHENTICATION_LOGOUT}); // logout current user if WebSocket connection to the back-end server is interrupted
+}
+
+
 function onError(error) {
     console.log(`watcher.onError -> error: ${JSON.stringify(error)}`);
+    this.dispatch({type: ACTION_AUTHENTICATION_LOGOUT}); // logout current user if WebSocket connection to the back-end server is interrupted
 }
   
 function onMessage(e) {
@@ -96,6 +105,7 @@ const watcher = {
     disconnect,
     sendMessage,
     onOpen,
+    onClose,
     onError,
     onMessage
 };

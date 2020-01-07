@@ -1,0 +1,8 @@
+.chat1-currentChat__chatProperties {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat1-currentChat__chatProperties__chatTypeHeader {
+    text-align: center;
+}

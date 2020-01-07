@@ -1,5 +1,13 @@
 .chat1-currentChat {
+  display: flex;
+  flex-direction: column;
   text-align: left;
-  background-color: wheat;
+  height: 100%;
 }
-  
+
+.chat1-currentChat__row1 {
+}
+
+.chat1-currentChat__row2 {
+  flex-grow: 1;
+}
