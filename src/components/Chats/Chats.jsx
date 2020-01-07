@@ -82,7 +82,8 @@ function Chats() {
     
   
   
-      const onBlur = chat.isSelected ? onSelectedChatBlur : null;
+      //const onBlur = chat.isSelected ? onSelectedChatBlur : null;
+      const onBlur = null;
       return (
           <li className={className} key={chat.guid} tabIndex="0" onFocus={ () => onChatSelected(chat) } onBlur={onBlur}>
               {chatIconElement} <span>{chat.displayName}</span>

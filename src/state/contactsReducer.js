@@ -45,13 +45,10 @@ function udpdateContactOnlineStatus(contacts, contactEmail, isOnline) {
 function selectContact(contacts, contactEmail) {
     const newContacts = Array.isArray(contacts) ? [...contacts] : [];
     return newContacts.map( c => {
-        if (c.email === contactEmail) {
-            return {
-                ...c,
-                isSelected: true
-            };
-        }
-        return c;
+        return {
+            ...c,
+            isSelected: c.email === contactEmail
+        };
     });
 }
 
@@ -96,7 +93,7 @@ export default function (state, action) {
         case ACTION_CONTACT_REFRESH:
             return {
                 ...state,
-                dataVersion: state.dataVersion + 1
+                dataVersion: (state.dataVersion || 0) + 1
             };
 
         case ACTION_CONTACT_ONLINE:

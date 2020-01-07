@@ -1,5 +1,5 @@
 import constants from '../constants';
-import {ACTION_CONTACT_ADD, ACTION_CONTACT_FETCH_ALL} from './contactsReducer';
+import {ACTION_CONTACT_ADD, ACTION_CONTACT_FETCH_ALL, ACTION_CONTACT_SELECTED} from './contactsReducer';
 
 export const ACTION_CHAT_FETCH_ALL = 'ACTION_CHAT_FETCH_ALL';
 export const ACTION_CHAT_REFRESH = 'ACTION_CHAT_REFRESH';
@@ -26,14 +26,22 @@ const getContactDisplayName = (chat, contactsList, profile) => {
 function selectChat(chats, chatGuid) {
     const newChats = Array.isArray(chats) ? [...chats] : [];
     return newChats.map( c => {
-        if (c.guid === chatGuid) {
-            return {
-                ...c,
-                isSelected: true
-            };
-        }
-        return c;
+        return {
+            ...c,
+            isSelected: c.guid === chatGuid
+        };
     });
+}
+
+function selectPrivateChatForContact(chats, contactEmail) {
+    const newChats = Array.isArray(chats) ? [...chats] : [];
+    const currentSelectedChatIndex = newChats.findIndex( c => c.isSelected);
+    const newSelectedChatIndex = newChats.findIndex( c => c.type === constants.CHAT_TYPE_PRIVATE && c.users.find( u => u.email === contactEmail));
+    if (newSelectedChatIndex !== -1) {
+        if (currentSelectedChatIndex !== -1) newChats[currentSelectedChatIndex].isSelected = false;
+        newChats[newSelectedChatIndex].isSelected = true;
+    }
+    return newChats;
 }
 
 function resetSelectedChat(chats) {
@@ -71,19 +79,31 @@ export default function (state, action, contacts, profile) {
         return chat;
     };
 
+    const sortFunc = (chat1, chat2) => {
+        // Chats with messages should come before empty chats
+        if (chat1.lastMessageTimestamp && !chat1.lastMessageTimestamp) return -1;
+        if (!chat1.lastMessageTimestamp && chat2.lastMessageTimestamp) return 1;
+        
+        // Compare empty chats by chat display name
+        if (!chat1.lastMessageTimestamp && !chat2.lastMessageTimestamp) return chat1.displayName.localeCompare(chat2.displayName);
+
+        // If both chats have last message timestamp, the one with the most recent timestamp should go first
+        return chat1.lastMessageTimestamp - chat2.lastMessageTimestamp;
+    }
+
     switch (action.type) {
 
         case ACTION_CHAT_FETCH_ALL:
             _contactsList = contacts.contactsList;
             return {
                 ...state,
-                chatsList: Array.isArray(action.chats) ? action.chats.map(mapFunc) : []
+                chatsList: Array.isArray(action.chats) ? action.chats.sort(sortFunc).map(mapFunc) : []
             };
 
         case ACTION_CHAT_REFRESH:
             return {
                 ...state,
-                dataVersion: state.dataVersion + 1
+                dataVersion: (state.dataVersion || 0) + 1
             };
     
 
@@ -106,6 +126,13 @@ export default function (state, action, contacts, profile) {
                 ...state,
                 chatsList: selectChat(state.chatsList, action.guid)
             };
+
+        case ACTION_CONTACT_SELECTED:
+            return {
+                ...state,
+                chatsList: selectPrivateChatForContact(state.chatsList, action.email)
+            };
+    
 
         case ACTION_CHAT_RESET_SELECTED:
             return {
