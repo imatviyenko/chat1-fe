@@ -23,11 +23,23 @@
   background-color: azure;
 }
 
-.chat1-chats__chatDispayName {
+.chat1-chats__chat {
+  margin-top: 4px;
+  cursor: default;
 }
 
-.chat1-chats__chatDispayName_private {
+.chat1-chats__chat_private {
 }
 
-.chat1-chats__chatDispayName_group {
+.chat1-chats__chat_group {
+}
+
+.chat1-chats__chat_selected {
+  background-color: lightblue;
+}
+
+
+.chat1-chats__chatIcon {
+  height: 3rem;
+  vertical-align: middle;
 }

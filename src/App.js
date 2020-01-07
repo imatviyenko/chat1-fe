@@ -33,6 +33,7 @@ const services = prodServices;
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialAppState);
   services.setAuthContext(state.auth);
+  services.watcher.setDispatch(dispatch);
 
   console.log('App -> state:');
   console.log(state);

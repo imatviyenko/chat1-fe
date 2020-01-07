@@ -1,13 +1,28 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 
 import AppReducerDispatchContext from '../../context/AppReducerDispatchContext';
 import {ACTION_AUTHENTICATION_LOGOUT} from '../../state/authReducer';
+import ServicesContext from '../../context/ServicesContext';
 
 export default function LogOutButton() {
     const dispatch = useContext(AppReducerDispatchContext);
+    const services = useContext(ServicesContext);
+    const [logoutButtonClickedFlag, setLogoutButtonClickedFlag] = useState(false);
+
+    const effectFunc = () => { 
+        const asynFunc = async () => {
+            if (!logoutButtonClickedFlag) return;
+            await services.watcher.disconnect(); // close  WebSocket connection to the back-end server
+            dispatch({type: ACTION_AUTHENTICATION_LOGOUT});
+        };
+        asynFunc();
+    };
+    
+    useEffect(effectFunc, [logoutButtonClickedFlag]); 
+
     
     const onClickHandler = () => {
-        dispatch({type: ACTION_AUTHENTICATION_LOGOUT});
+        setLogoutButtonClickedFlag(true);
     }
 
     return (

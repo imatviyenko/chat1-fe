@@ -56,7 +56,6 @@ export default function LoginPage() {
             return;
           };
 
-
           history.replace(from); // if auth is succcessfull, return to whatever page we've been redirected from
         } else {
           dispatch({type: ACTION_AUTHENTICATION_FAILURE, status: authResult.status}); // notify the app reducer that authentication failed

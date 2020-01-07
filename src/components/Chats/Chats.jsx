@@ -7,29 +7,14 @@ import ServicesContext from '../../context/ServicesContext';
 import ChatsContext from '../../context/ChatsContext';
 import AppReducerDispatchContext from '../../context/AppReducerDispatchContext';
 import {ACTION_APP_ERROR} from '../../state/appReducer';
-import {ACTION_CHAT_FETCH_ALL} from '../../state/chatsReducer';
+import {ACTION_CHAT_FETCH_ALL, ACTION_CHAT_SELECTED, ACTION_CHAT_RESET_SELECTED} from '../../state/chatsReducer';
 
+import privateChatIcon from './private-chat.png';
+import groupChatIcon from './group-chat.png';
+import messageIcon from './message.png';
 import './Chats.css';
 
-const mapFunc = (chat, index) => {
-    if (!chat || !chat.displayName || !chat.type) return null;
-    
-    let className = chat.type === constants.CHAT_TYPE_PRIVATE ? 
-        "chat1-chats__chatDispayName chat1-chats__chatDispayName_private"
-        :
-        "chat1-chats__chatDispayName chat1-chats__chatDispayName_group";
 
-    const displayName = chat.type === constants.CHAT_TYPE_PRIVATE ? 
-        `PRIVATE CHAT: ${chat.displayName}`
-        :
-        `GROUP CHAT: ${chat.displayName}`;
-
-    return (
-        <li className={className} key={index}>
-            {displayName}
-        </li>
-    );
-}
 
 
 function Chats() {
@@ -62,7 +47,48 @@ function Chats() {
         }
         asynFunc();
     };
-    useEffect(effectFunc1, []); // run once when the component is mounted
+    useEffect(effectFunc1, [chats.dataVersion]); // run once when the component is mounted and whenever chats.dataVersion changes
+
+
+    const mapFunc = (chat, index) => {
+      if (!chat || !chat.displayName || !chat.type) return null;
+      
+      const chatIconElement = chat.type === constants.CHAT_TYPE_PRIVATE ? 
+        (
+          <img src={privateChatIcon} className="chat1-chats__chatIcon" alt="Private chat: " />
+        )
+        :
+        (
+          <img src={groupChatIcon} className="chat1-chats__chatIcon" alt="Group chat: " />
+        );
+          
+      let className = "chat1-chats__chat";
+      chat.type === constants.CHAT_TYPE_PRIVATE ? 
+        className += " chat1-chats__chat_private"
+        :
+        className += " chat1-chats__chat_group";
+      if (chat.isSelected) className += " chat1-chats__chat_selected"
+      
+  
+      const onChatSelected = (chat) => {
+        console.log(`Chats.onChatSelected -> chat: ${JSON.stringify(chat)}`);
+        dispatch({type: ACTION_CHAT_SELECTED, guid: chat.guid});
+      };
+  
+      const onSelectedChatBlur = () => {
+        console.log(`Chats.onSelectedChatBlur invoked`);
+        dispatch({type: ACTION_CHAT_RESET_SELECTED});
+      };
+    
+  
+  
+      const onBlur = chat.isSelected ? onSelectedChatBlur : null;
+      return (
+          <li className={className} key={chat.guid} tabIndex="0" onFocus={ () => onChatSelected(chat) } onBlur={onBlur}>
+              {chatIconElement} <span>{chat.displayName}</span>
+          </li>
+      );
+    }    
 
     return (
         <div className="chat1-chats">

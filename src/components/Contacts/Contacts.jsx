@@ -8,10 +8,13 @@ import ServicesContext from '../../context/ServicesContext';
 import ContactsContext from '../../context/ContactsContext';
 import AppReducerDispatchContext from '../../context/AppReducerDispatchContext';
 import {ACTION_APP_ERROR} from '../../state/appReducer';
-import {ACTION_CONTACT_ADD, ACTION_CONTACT_REMOVE, ACTION_CONTACT_FETCH_ALL} from '../../state/contactsReducer';
+import {ACTION_CONTACT_ADD, ACTION_CONTACT_REMOVE, ACTION_CONTACT_FETCH_ALL, ACTION_CONTACT_SELECTED, ACTION_CONTACT_RESET_SELECTED} from '../../state/contactsReducer';
+import {ACTION_CHAT_REFRESH} from '../../state/chatsReducer';
 
 import ContactsList from './ContactsList';
+
 import './Contacts.css';
+import { ACTION_CHAT_FETCH_ALL } from '../../state/chatsReducer';
 
 function Contacts() {
     let history = useHistory();
@@ -46,6 +49,7 @@ function Contacts() {
             const result = await services.addContact(newContactEmail);
             if (result.status === constants.ERROR_SUCCESS) {
               dispatch({type: ACTION_CONTACT_ADD, contact: result.contact});
+              dispatch({type: ACTION_CHAT_REFRESH});
             } else {
               dispatch({type: ACTION_APP_ERROR, message: 'Error fetching contacts', result}); // notify the app reducer that there has been an application error
               history.replace({ pathname: '/error'});
@@ -80,7 +84,17 @@ function Contacts() {
         }
         asynFunc();
     };
-    useEffect(effectFunc2, []); // run once when the component is mounted
+    useEffect(effectFunc2, [contacts.dataVersion]); // run once when the component is mounted and then whenever contacts.dataVersion changes
+
+    const onContactSelected = (contact) => {
+      console.log(`Contacts.onContactSelected -> contact: ${JSON.stringify(contact)}`);
+      dispatch({type: ACTION_CONTACT_SELECTED, email: contact.email});
+    };
+
+    const onSelectedContactBlur = () => {
+      console.log(`Contacts.onSelectedContactBlur invoked`);
+      dispatch({type: ACTION_CONTACT_RESET_SELECTED});
+    };
 
     return (
         <div className="chat1-contacts">
@@ -92,7 +106,7 @@ function Contacts() {
                 <button className="chat1-contacts__button_addUser" onClick={ () => setAddContactFlippingFlag(!addContactFlippingFlag)}>Add user</button>
             </div>
             <div className="chat1-contacts__row2">
-                <ContactsList contactsList={contactsList} />
+                <ContactsList contactsList={contactsList} onContactSelected={onContactSelected} onSelectedContactBlur={onSelectedContactBlur}/>
             </div>
           </div>
         </div>

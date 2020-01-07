@@ -46,6 +46,14 @@ export default function RegistrationPage() {
               return;
             };
 
+            // establish authenticated WebSocket connection to the back-end server
+            const webSocketResult = await services.watcher.connect(result.token);
+            if (webSocketResult.status !== constants.ERROR_SUCCESS) {
+              dispatch({type: ACTION_APP_ERROR, message: 'Error establishing WebSocket connection to the back-end server', result}); // notify the app reducer that there has been an application error
+              history.replace({ pathname: '/error'});
+              return;
+            };            
+
 
             history.replace({ pathname: "/" }); // if we got a token from services.registerUser, log in the user and redirect to the Home page
           } else {

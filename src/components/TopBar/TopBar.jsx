@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 import './TopBar.css';
-import logo from './logo.ico';
+import logo from './logo.png';
 import LogOutButton from './LogOutButton';
 import ProfileLink from './ProfileLink';
 

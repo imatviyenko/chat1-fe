@@ -11,7 +11,29 @@
   background-color: azure;
 }
 
+.chat1-contacts__contact {
+  margin-top: 4px;
+  cursor: default;
+}
 
+.chat1-contacts__contact_active {
+}
+
+.chat1-contacts__contact_inactive {
+  color: grey;
+}
+
+.chat1-contacts__contact_selected {
+  background-color: lightblue;
+}
+
+.chat1-contacts__contactIsOnlineIcon {
+  height: 3rem;
+  vertical-align: middle;
+}
+
+
+/*
 .chat1-contacts__contactDispayName {
 }
 
@@ -21,3 +43,4 @@
 .chat1-contacts__contactDispayName_inactive {
   color: grey;
 }
+*/
