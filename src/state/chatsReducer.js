@@ -5,6 +5,7 @@ export const ACTION_CHAT_FETCH_ALL = 'ACTION_CHAT_FETCH_ALL';
 export const ACTION_CHAT_REFRESH = 'ACTION_CHAT_REFRESH';
 export const ACTION_CHAT_SELECTED = 'ACTION_CHAT_SELECTED';
 export const ACTION_CHAT_RESET_SELECTED = 'ACTION_CHAT_RESET_SELECTED';
+export const ACTION_CHAT_UPDATE_NAME = 'ACTION_CHAT_UPDATE_NAME';
 
 
 const getContactDisplayName = (chat, contactsList, profile) => {

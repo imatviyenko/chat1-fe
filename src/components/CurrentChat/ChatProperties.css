@@ -6,3 +6,38 @@
 .chat1-currentChat__chatProperties__chatTypeHeader {
     text-align: center;
 }
+
+
+.chat1-currentChat__chatProperties__row {
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    line-height: 1.5;
+}
+
+.chat1-currentChat__chatProperties__leftCol {
+    flex-basis: 10rem;
+}
+
+.chat1-currentChat__chatProperties__rightCol {
+}
+
+.chat1-currentChat__chatProperties__fieldLabel {
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.chat1-currentChat__chatProperties__field {
+    vertical-align: middle;
+}
+
+.chat1-currentChat__chatProperties__icon {
+    height: 3rem;
+    vertical-align: middle;
+}
+
+.chat1-currentChat__chatProperties__icon_small {
+    margin-left: 2px;
+    height: 2rem;
+    vertical-align: middle;
+}

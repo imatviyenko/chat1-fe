@@ -6,6 +6,7 @@ import AppContext from '../../context/AppContext';
 import ServicesContext from '../../context/ServicesContext';
 import ChatsContext from '../../context/ChatsContext';
 import AppReducerDispatchContext from '../../context/AppReducerDispatchContext';
+import {ACTION_CHAT_UPDATE_NAME} from '../../state/chatsReducer';
 
 
 import ChatProperties from './ChatProperties';
@@ -26,10 +27,14 @@ function CurrentChat() {
     const currentChat = Array.isArray(chatsList) && chatsList.find( c => c.isSelected);
     console.log(`CurrentChat -> currentChat: ${JSON.stringify(currentChat)}`);
 
+    const onUpdateChatName = (updatedChatName) => {
+        dispatch({type: ACTION_CHAT_UPDATE_NAME, chatGuid: currentChat, updatedChatName});
+    };
+
     return (
         <div className="chat1-currentChat">
             <div className="chat1-currentChat__row1">
-                <ChatProperties chat={currentChat}/>
+                <ChatProperties chat={currentChat} onUpdateChatName={onUpdateChatName}/>
             </div>
             <div className="chat1-currentChat__row2">
                 <ChatMessages chat={currentChat}/>

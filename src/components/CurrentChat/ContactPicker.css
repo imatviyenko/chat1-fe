@@ -1,0 +1,57 @@
+.chat1-contactPicker {
+    padding: 2px;
+}
+
+.chat1-contactPicker_editMode {
+    background-color: white;
+}
+
+.chat1-contactPicker {
+    display: flex;
+    align-items: center;
+}
+
+.chat1-contactPicker__contact {
+}
+
+.chat1-contactPicker__contact__deleteButton {
+    color: red;
+    cursor: pointer;
+}
+
+.chat1-contactPicker__contact__deleteButton:hover {
+    font-weight: bold;
+}
+
+
+.chat1-contactPicker__contact__addButton {
+    color: blue;
+    cursor: pointer;
+    text-shadow: 
+        -1px 0 blue,
+        0 1px blue, 
+        1px 0 blue, 
+        0 -1px blue,
+        -1px -1px blue,
+        1px 1px blue,
+        -1px 1px blue,
+        1px -1px blue;    
+}
+
+.chat1-contactPicker__contact__addButton:hover {
+    font-weight: bold;
+}
+
+.chat1-contactPicker__icon {
+    height: 2rem;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+.chat1-contactPicker__icon_update {
+    margin-left: 2rem;
+}
+
+.chat1-contactPicker__addDropDown {
+
+}
