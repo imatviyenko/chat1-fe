@@ -7,11 +7,12 @@ import ServicesContext from '../../context/ServicesContext';
 import ChatsContext from '../../context/ChatsContext';
 import AppReducerDispatchContext from '../../context/AppReducerDispatchContext';
 import {ACTION_APP_ERROR} from '../../state/appReducer';
-import {ACTION_CHAT_FETCH_ALL, ACTION_CHAT_SELECTED, ACTION_CHAT_RESET_SELECTED} from '../../state/chatsReducer';
+import {ACTION_CHAT_FETCH_ALL, ACTION_CHAT_SELECTED, ACTION_CHAT_RESET_SELECTED, ACTION_CHAT_ADD_GROUP_CHAT} from '../../state/chatsReducer';
 
 import privateChatIcon from './private-chat.png';
 import groupChatIcon from './group-chat.png';
 import messageIcon from './message.png';
+import addChatIcon from './add-icon.png';
 import './Chats.css';
 
 
@@ -91,9 +92,23 @@ function Chats() {
       );
     }    
 
+    const addGroupChat = ()=> {
+      console.log(`Chats.addGroupChat invoked`);
+      dispatch({type: ACTION_CHAT_ADD_GROUP_CHAT});
+    };
+
     return (
         <div className="chat1-chats">
           <h3>Chats</h3>
+          <div className="chat1-chats__buttons">
+            <img 
+              src={addChatIcon} 
+              className="chat1-currentChat__chatProperties__icon_small" 
+              alt="Edit" 
+              onClick={addGroupChat}
+            />
+            <span>Add Group Chat</span>
+          </div>
           <div className="chat1-chats__content">
             <ul className="chat1-chats__chatsList">
                 {Array.isArray(chatsList) && chatsList.map(mapFunc)}

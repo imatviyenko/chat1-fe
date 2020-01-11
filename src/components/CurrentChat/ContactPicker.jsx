@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 
 import AppContext from '../../context/AppContext';
 import ContactsContext from '../../context/ContactsContext';
@@ -22,7 +22,7 @@ const augmentContactsLists = (currentContactsList, contactsList, profile) => {
 }
 
 
-const getNewContactDropDownUsers = (currentContactsList, contactsList) => {
+const getContactsDropDownUsers = (currentContactsList, contactsList) => {
     if (!Array.isArray(currentContactsList) || !Array.isArray(contactsList)) return [];
 
     return contactsList.filter( c => {
@@ -31,35 +31,61 @@ const getNewContactDropDownUsers = (currentContactsList, contactsList) => {
 }
 
 
-function ContactPicker({initialContactsList}) {
+function ContactPicker({initialContactsList, onUpdateContactsList, readonly}) {
     const [editMode, setEditMode] = useState(false);
 
     const contacts = useContext(ContactsContext);
     const contactsList = contacts && contacts.contactsList;
     const profile = useContext(AppContext).profile;
+    
     const [currentContactsList, setCurrentContactsList] = useState(initialContactsList);
+    // https://stackoverflow.com/questions/54865764/react-usestate-does-not-reload-state-from-props
+    useEffect( ()=> {
+        setCurrentContactsList(initialContactsList);
+    }, [initialContactsList]);
+        
+
     const augmentedCurrentContactsList = augmentContactsLists(currentContactsList, contactsList, profile);
-    const newContactDropDownUsers = getNewContactDropDownUsers(currentContactsList, contactsList);
+    const contactsDropDownUsers = getContactsDropDownUsers(currentContactsList, contactsList);
     console.log(`ContactPicker -> initialContactsList: ${JSON.stringify(initialContactsList)}`);
     console.log(`ContactPicker -> contacts: ${JSON.stringify(contacts)}`);
     console.log(`ContactPicker -> contactsList: ${JSON.stringify(contactsList)}`);
     console.log(`ContactPicker -> profile: ${JSON.stringify(profile)}`);
     console.log(`ContactPicker -> currentContactsList: ${JSON.stringify(currentContactsList)}`);
     console.log(`ContactPicker -> augmentedCurrentContactsList: ${JSON.stringify(augmentedCurrentContactsList)}`);
-    console.log(`ContactPicker -> newContactDropDownUsers: ${JSON.stringify(newContactDropDownUsers)}`);
+    console.log(`ContactPicker -> contactsDropDownUsers: ${JSON.stringify(contactsDropDownUsers)}`);
 
     const [showNewContactDropDown, setShowNewContactDropDown] = useState(false);
+
+    const addContact = contactEmail => {
+        console.log(`ContactPicker.addContact -> contactEmail: ${contactEmail}`);
+        const contactToAdd = Array.isArray(contactsDropDownUsers) && contactsDropDownUsers.find( c => c.email === contactEmail);
+        if (contactToAdd) {
+            if (Array.isArray(currentContactsList) && !currentContactsList.find( c => c.email === contactEmail)) {
+                setCurrentContactsList([...currentContactsList, {email: contactEmail}]);
+            }
+        }
+    };
 
 
     if (!Array.isArray(augmentedCurrentContactsList)) return null;
 
     let addContactElement;
-    let addDropDownClicked = false;
-    if (editMode) {
+    const dropDownOptions  = [
+        <option value="" key="EMPTY">Select contact</option>,
+        ...contactsDropDownUsers.map( u => <option key={u.email} value={u.email}>{u.displayName || u.email}</option>)
+    ];
+    if (editMode && !readonly) {
         addContactElement = showNewContactDropDown ?
         (
-            <select className="chat1-contactPicker__addDropDown" autofocus onBlur={ () => setShowNewContactDropDown(false) } onMouseDown = {() => {addDropDownClicked = true;}} >
-                {newContactDropDownUsers.map( u => <option key={u.email}>{u.displayName || u.email}</option>)}
+            <select 
+                className="chat1-contactPicker__addDropDown" 
+                autoFocus 
+                tabIndex="0" 
+                onBlur={ () => setShowNewContactDropDown(false) }
+                onChange={ e => addContact(e.target.value) }
+            >
+                {dropDownOptions}
             </select>
         )
         :
@@ -72,10 +98,17 @@ function ContactPicker({initialContactsList}) {
 
     const update = () => {
         console.log(`ContactPicker.update invoked`);
-
+        setEditMode(false);
+        onUpdateContactsList(currentContactsList);
     };
 
-    const editModeIconElement = !editMode && (
+    const cancel = () => {
+        console.log(`ContactPicker.update invoked`);
+        setEditMode(false);
+        setCurrentContactsList(initialContactsList);
+    };
+
+    const editModeIconElement = !editMode && !readonly && (
         <img 
             src={editModeIcon} 
             className="chat1-contactPicker__icon" 
@@ -90,7 +123,7 @@ function ContactPicker({initialContactsList}) {
             src={updateIcon} 
             className="chat1-contactPicker__icon chat1-contactPicker__icon_update" 
             alt="Update" 
-            onClick={ ()=> update() }
+            onClick={ update }
         />
     );
 
@@ -99,35 +132,23 @@ function ContactPicker({initialContactsList}) {
             src={cancelIcon} 
             className="chat1-contactPicker__icon" 
             alt="Cancel" 
-            onClick={ ()=> setEditMode(false) }
+            onClick={ cancel }
         />
     );
-    cancelIconElement = null;
 
     const mapContactFunc = contact => {
         return (
             <span className="chat1-contactPicker__contact" key={contact.email}>
-                {editMode && <span className="chat1-contactPicker__contact__deleteButton">x</span>}{contact.displayName};&nbsp;
+                {editMode && <span className="chat1-contactPicker__contact__deleteButton">x</span>}{contact.displayName || contact.email};&nbsp;
             </span>
         )
     };
 
     let className = "chat1-contactPicker";
     if (editMode) className += " chat1-contactPicker_editMode";
-    
-    const onBlur = editMode ? 
-        (e) => {
-            if (addDropDownClicked) {
-                e.preventDefault();
-                return;
-            }
-            setEditMode(false) 
-        }
-        : 
-        null;
 
     return (
-        <div className={className} tabIndex="0" autofocus onBlur={onBlur}>
+        <div className={className} tabIndex="0">
             {augmentedCurrentContactsList.map(mapContactFunc)}
             {editModeIconElement}
             {addContactElement}

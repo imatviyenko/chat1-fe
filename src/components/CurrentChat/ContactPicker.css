@@ -8,7 +8,10 @@
 
 .chat1-contactPicker {
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
+    max-width: 100%;
 }
 
 .chat1-contactPicker__contact {
@@ -17,6 +20,8 @@
 .chat1-contactPicker__contact__deleteButton {
     color: red;
     cursor: pointer;
+    font-size: large;
+    margin-right: 2px;
 }
 
 .chat1-contactPicker__contact__deleteButton:hover {

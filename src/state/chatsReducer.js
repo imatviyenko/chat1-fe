@@ -5,8 +5,8 @@ export const ACTION_CHAT_FETCH_ALL = 'ACTION_CHAT_FETCH_ALL';
 export const ACTION_CHAT_REFRESH = 'ACTION_CHAT_REFRESH';
 export const ACTION_CHAT_SELECTED = 'ACTION_CHAT_SELECTED';
 export const ACTION_CHAT_RESET_SELECTED = 'ACTION_CHAT_RESET_SELECTED';
-export const ACTION_CHAT_UPDATE_NAME = 'ACTION_CHAT_UPDATE_NAME';
-
+export const ACTION_CHAT_UPDATED = 'ACTION_CHAT_UPDATED';
+export const ACTION_CHAT_ADD_GROUP_CHAT = 'ACTION_CHAT_ADD_GROUP_CHAT';
 
 const getContactDisplayName = (chat, contactsList, profile) => {
     console.log(`getContactDisplayName -> chat: ${JSON.stringify(chat)}`);
@@ -58,6 +58,12 @@ function resetSelectedChat(chats) {
     });
 }
 
+function updateChat(chats, chat) {
+    return chats.map( c => {
+        if (c.guid.toLowerCase() === chat.guid.toLowerCase()) return chat;
+        return c;
+    });
+}
 
 
 export default function (state, action, contacts, profile) {
@@ -141,7 +147,12 @@ export default function (state, action, contacts, profile) {
                 chatsList: resetSelectedChat(state.chatsList)
             };            
     
-        
+        case ACTION_CHAT_UPDATED:
+            return {
+                ...state,
+                chatsList: updateChat(state.chatsList, action.chat)
+            };
+            
 
         default:
             return state;

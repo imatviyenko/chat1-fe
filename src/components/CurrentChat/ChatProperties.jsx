@@ -10,7 +10,7 @@ import updateChatNameIcon from './check-1-icon.png';
 
 import './ChatProperties.css';
 
-function ChatProperties({chat, onUpdateChatName}) {
+function ChatProperties({chat, onUpdateChatName, onUpdateChatUsers}) {
     console.log(`ChatProperties -> chat: ${JSON.stringify(chat)}`);
     const [editChatNameMode, setEditChatNameMode] = useState(false);
     const inputRefChatName = useRef(null);
@@ -45,7 +45,7 @@ function ChatProperties({chat, onUpdateChatName}) {
         }
     };
 
-    const chatNameElement = editChatNameMode ?
+    const chatNameElement = editChatNameMode && chat.type === constants.CHAT_TYPE_GROUP ?
         (
             <>
                 <input 
@@ -68,12 +68,16 @@ function ChatProperties({chat, onUpdateChatName}) {
         (
             <>
                 <span className="chat1-currentChat__chatProperties__field" >{chat.displayName}</span> 
-                <img 
-                    src={editChatNameIcon} 
-                    className="chat1-currentChat__chatProperties__icon_small" 
-                    alt="Edit" 
-                    onClick={ () => setEditChatNameMode(true)}
-                />
+                {
+                     chat.type === constants.CHAT_TYPE_GROUP && (
+                        <img 
+                            src={editChatNameIcon} 
+                            className="chat1-currentChat__chatProperties__icon_small" 
+                            alt="Edit" 
+                            onClick={ () => setEditChatNameMode(true)}
+                        />
+                     )
+                }
             </>
         );
 
@@ -93,7 +97,7 @@ function ChatProperties({chat, onUpdateChatName}) {
                     <span className="chat1-currentChat__chatProperties__fieldLabel">Users:</span>
                 </div>
                 <div className="chat1-currentChat__chatProperties__rightCol">
-                    <ContactPicker initialContactsList={chat.users}/>
+                    <ContactPicker initialContactsList={chat.users} onUpdateContactsList={onUpdateChatUsers} readonly={chat.type === constants.CHAT_TYPE_PRIVATE}/>
                 </div>
             </div>
         </div>
