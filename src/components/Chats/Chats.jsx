@@ -7,7 +7,9 @@ import ServicesContext from '../../context/ServicesContext';
 import ChatsContext from '../../context/ChatsContext';
 import AppReducerDispatchContext from '../../context/AppReducerDispatchContext';
 import {ACTION_APP_ERROR} from '../../state/appReducer';
-import {ACTION_CHAT_FETCH_ALL, ACTION_CHAT_SELECTED, ACTION_CHAT_RESET_SELECTED, ACTION_CHAT_ADD_GROUP_CHAT} from '../../state/chatsReducer';
+import {ACTION_CHAT_FETCH_ALL, ACTION_CHAT_SELECTED, ACTION_CHAT_RESET_SELECTED, ACTION_CHAT_UPDATED, ACTION_CHAT_ADD_GROUP_CHAT} from '../../state/chatsReducer';
+
+import IconButton from '../IconButton/IconButton';
 
 import privateChatIcon from './private-chat.png';
 import groupChatIcon from './group-chat.png';
@@ -25,8 +27,10 @@ function Chats() {
     const services = useContext(ServicesContext);
     const chats = useContext(ChatsContext);
     const chatsList = chats && chats.chatsList;
+    const [addGroupChatFlippingFlag, setAddGroupChatFlippingFlag] = useState(null); // three state flag, can be either null, true or false
     console.log(`Chats -> chats: ${JSON.stringify(chats)}`);
     console.log(`Chats -> chatsList: ${JSON.stringify(chatsList)}`);
+    console.log(`Chats -> addGroupChatFlippingFlag: ${addGroupChatFlippingFlag}`);
 
     // effect for fetching the list of chats for the current user
     const effectFunc1 = () => { 
@@ -51,6 +55,30 @@ function Chats() {
     useEffect(effectFunc1, [chats.dataVersion]); // run once when the component is mounted and whenever chats.dataVersion changes
 
 
+    const effectFunc2 = () => { 
+      const asynFunc = async () => {
+          console.log(`Chats.effect2 ->  addGroupChatFlippingFlag: ${addGroupChatFlippingFlag}`);
+          if (addGroupChatFlippingFlag === null) return;
+          
+          try {
+              const result = await services.addGroupChat();
+              if (result.status === constants.ERROR_SUCCESS) {
+                dispatch({type: ACTION_CHAT_ADD_GROUP_CHAT, chat: result.chat});
+              } else {
+                dispatch({type: ACTION_APP_ERROR, message: 'Error creating group chat', result}); // notify the app reducer that there has been an application error
+                history.replace({ pathname: '/error'});
+                return;
+              }
+          } catch (e) {
+              console.error('CurrentChat -> error in effectFunc:');
+              console.error(e);
+          };
+      };
+      asynFunc();
+    };
+    useEffect(effectFunc2, [addGroupChatFlippingFlag]); // fire effect on addGroupChatFlippingFlag transitions true->false and false->true, ignore null value
+
+
     const mapFunc = (chat, index) => {
       if (!chat || !chat.displayName || !chat.type) return null;
       
@@ -69,13 +97,13 @@ function Chats() {
         :
         className += " chat1-chats__chat_group";
       if (chat.isSelected) className += " chat1-chats__chat_selected"
-      
-  
+        
+    
       const onChatSelected = (chat) => {
         console.log(`Chats.onChatSelected -> chat: ${JSON.stringify(chat)}`);
         dispatch({type: ACTION_CHAT_SELECTED, guid: chat.guid});
       };
-  
+
       const onSelectedChatBlur = () => {
         console.log(`Chats.onSelectedChatBlur invoked`);
         dispatch({type: ACTION_CHAT_RESET_SELECTED});
@@ -94,20 +122,19 @@ function Chats() {
 
     const addGroupChat = ()=> {
       console.log(`Chats.addGroupChat invoked`);
-      dispatch({type: ACTION_CHAT_ADD_GROUP_CHAT});
+      setAddGroupChatFlippingFlag(!addGroupChatFlippingFlag);
     };
 
     return (
         <div className="chat1-chats">
           <h3>Chats</h3>
           <div className="chat1-chats__buttons">
-            <img 
-              src={addChatIcon} 
-              className="chat1-currentChat__chatProperties__icon_small" 
-              alt="Edit" 
+            <IconButton 
+              icon={addChatIcon}
+              iconAlt="Add Group Chat"
+              label="Add Group Chat"
               onClick={addGroupChat}
             />
-            <span>Add Group Chat</span>
           </div>
           <div className="chat1-chats__content">
             <ul className="chat1-chats__chatsList">

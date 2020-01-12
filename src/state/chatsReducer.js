@@ -59,10 +59,20 @@ function resetSelectedChat(chats) {
 }
 
 function updateChat(chats, chat) {
-    return chats.map( c => {
-        if (c.guid.toLowerCase() === chat.guid.toLowerCase()) return chat;
+    const _chats = resetSelectedChat(chats);
+    return _chats.map( c => {
+        if (c.guid.toLowerCase() === chat.guid.toLowerCase()) return {
+            ...chat,
+            isSelected: true
+        };
         return c;
     });
+}
+
+
+function addChat(chats, chat) {
+    const _chats = resetSelectedChat(chats);
+    return [{...chat, isSelected: true}, ..._chats];
 }
 
 
@@ -152,7 +162,13 @@ export default function (state, action, contacts, profile) {
                 ...state,
                 chatsList: updateChat(state.chatsList, action.chat)
             };
-            
+        
+        case ACTION_CHAT_ADD_GROUP_CHAT:
+            return {
+                ...state,
+                chatsList: addChat(state.chatsList, action.chat)
+            };
+
 
         default:
             return state;

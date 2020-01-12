@@ -19,22 +19,34 @@ function CurrentChat() {
     let history = useHistory();
     const dispatch = useContext(AppReducerDispatchContext);
     const services = useContext(ServicesContext);
-    const [updateBackendFlippingFlag, setUpdateBackendFlippingFlag] = useState(null); // three state flag, can be either null, true or false
     const chats = useContext(ChatsContext);
     const chatsList = chats && chats.chatsList;
-    let currentChat = Array.isArray(chatsList) && chatsList.find( c => c.isSelected);
+    const currentChatStateFromContext = Array.isArray(chatsList) && chatsList.find( c => c.isSelected);
+    const [currentChat, setCurrentChat] = useState(currentChatStateFromContext);
+    const [currentChatUpdate, setCurrentChatUpdate] = useState(null);
+
     console.log(`CurrentChat -> chats: ${JSON.stringify(chats)}`);
     console.log(`CurrentChat -> chatsList: ${JSON.stringify(chatsList)}`);
+    console.log(`CurrentChat -> currentChatStateFromContext: ${JSON.stringify(currentChatStateFromContext)}`);
     console.log(`CurrentChat -> currentChat: ${JSON.stringify(currentChat)}`);
 
-    const effectFunc = () => { 
+
+    // effetct to refresh currentChat if changes to chats state slice are propagated via context
+    const effectFunc1 = () => {
+        setCurrentChat(currentChatStateFromContext);
+    };
+    useEffect(effectFunc1, [currentChatStateFromContext]);
+
+
+    // effect to call api to update chat in the database
+    const effectFunc2 = () => { 
         const asynFunc = async () => {
-            console.log(`CurrentChat.effect ->  updateBackendFlippingFlag: ${updateBackendFlippingFlag}`);
+            //console.log(`CurrentChat.effect ->  updateBackendFlippingFlag: ${updateBackendFlippingFlag}`);
             console.log(`CurrentChat.effect ->  currentChat: ${JSON.stringify(currentChat)}`);
-            if (updateBackendFlippingFlag === null || !currentChat) return;
+            if (currentChatUpdate === null) return;
             
             try {
-                const result = await services.updateChat(currentChat);
+                const result = await services.updateChat(currentChatUpdate);
                 if (result.status === constants.ERROR_SUCCESS) {
                   dispatch({type: ACTION_CHAT_UPDATED, chat: result.chat});
                 } else {
@@ -48,28 +60,27 @@ function CurrentChat() {
             };
         };
         asynFunc();
-      };
-    
-    useEffect(effectFunc, [updateBackendFlippingFlag]); // fire effect on updateBackendFlippingFlag transitions true->false and false->true, ignore null value
+    };
+    useEffect(effectFunc2, [currentChatUpdate]); // fire effect when currentChatUpdate object changes, ignore null value
         
 
     const onUpdateChatName = (updatedChatName) => {
         console.log(`CurrentChat.onUpdateChatName -> updatedChatName: ${updatedChatName}`);
-        currentChat = {
+        const _currentChat = {
             ...currentChat,
             displayName: updatedChatName
         };
-        //setUpdateBackendFlippingFlag(!updateBackendFlippingFlag);
+        setCurrentChatUpdate(_currentChat);
     };
 
     const onUpdateChatUsers = (updatedChatUsers) => {
         console.log(`CurrentChat.onUpdateChatUsers -> updatedChatUsers: ${JSON.stringify(updatedChatUsers)}`);
 
-        currentChat = {
+        const _currentChat = {
             ...currentChat,
             users: [...updatedChatUsers]
         };
-        //setUpdateBackendFlippingFlag(!updateBackendFlippingFlag);
+        setCurrentChatUpdate(_currentChat);
     };
 
     return (

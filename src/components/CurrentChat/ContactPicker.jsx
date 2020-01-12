@@ -9,9 +9,6 @@ import cancelIcon from './close-icon.png';
 import addContactIcon from './find-icon.png';
 import './ContactPicker.css';
 
-
-
-
 const augmentContactsLists = (currentContactsList, contactsList, profile) => {
     if (!Array.isArray(currentContactsList) || !Array.isArray(contactsList)) return currentContactsList;
 
@@ -67,6 +64,13 @@ function ContactPicker({initialContactsList, onUpdateContactsList, readonly}) {
         }
     };
 
+
+    const deleteContact = contactEmail => {
+        console.log(`ContactPicker.deleteContact -> contactEmail: ${contactEmail}`);
+        if (contactEmail) {
+            if (Array.isArray(currentContactsList)) setCurrentContactsList(currentContactsList.filter( c => c.email !== contactEmail));
+        }
+    };
 
     if (!Array.isArray(augmentedCurrentContactsList)) return null;
 
@@ -139,7 +143,8 @@ function ContactPicker({initialContactsList, onUpdateContactsList, readonly}) {
     const mapContactFunc = contact => {
         return (
             <span className="chat1-contactPicker__contact" key={contact.email}>
-                {editMode && <span className="chat1-contactPicker__contact__deleteButton">x</span>}{contact.displayName || contact.email};&nbsp;
+                {editMode && <span className="chat1-contactPicker__contact__deleteButton" onClick={ () => deleteContact(contact.email)}>x</span>} 
+                {contact.displayName || contact.email};&nbsp;
             </span>
         )
     };

@@ -1,0 +1,12 @@
+.chat1-button {
+    padding: 4px 6px 4px 6px;
+}
+
+.chat1-button__icon {
+    height: 2rem;
+    vertical-align: middle;
+    margin-right: 2px;
+}
+
+.chat1-button__label {
+}

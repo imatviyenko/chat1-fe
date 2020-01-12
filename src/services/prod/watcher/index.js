@@ -1,5 +1,6 @@
 import constants from '../../../constants';
 import {ACTION_CONTACT_ONLINE, ACTION_CONTACT_OFFLINE, ACTION_CONTACT_REFRESH} from '../../../state/contactsReducer';
+import {ACTION_CHAT_REFRESH} from '../../../state/chatsReducer';
 import {ACTION_AUTHENTICATION_LOGOUT} from '../../../state/authReducer';
 
 function setDispatch(dispatch) {
@@ -95,6 +96,10 @@ function onMessage(e) {
     
         case constants.EVENT_USER_PROFILE_UPDATED:
             this.dispatch({type: ACTION_CONTACT_REFRESH});
+            return;
+
+        case constants.EVENT_CHAT_UPDATED:
+            this.dispatch({type: ACTION_CHAT_REFRESH});
             return;            
     }
 }
