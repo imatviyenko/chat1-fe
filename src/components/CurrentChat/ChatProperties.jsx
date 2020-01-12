@@ -3,10 +3,14 @@ import React, {useState, useContext, useEffect, useRef} from 'react';
 import constants from '../../constants';
 import ContactPicker from './ContactPicker';
 
+import icons from '../../icons';
+
+/*
 import privateChatIcon from '../Chats/private-chat.png';
 import groupChatIcon from '../Chats/group-chat.png';
 import editChatNameIcon from './pen-icon.png';
 import updateChatNameIcon from './check-1-icon.png';
+*/
 
 import './ChatProperties.css';
 
@@ -21,11 +25,11 @@ function ChatProperties({chat, onUpdateChatName, onUpdateChatUsers}) {
 
     const chatIconElement = chat.type === constants.CHAT_TYPE_PRIVATE ? 
         (
-        <img src={privateChatIcon} className="chat1-currentChat__chatProperties__icon" alt="Private chat: " />
+        <img src={icons.privateChatIcon} className="chat1-currentChat__chatProperties__icon" alt="Private chat: " />
         )
         :
         (
-        <img src={groupChatIcon} className="chat1-currentChat__chatProperties__icon" alt="Group chat: " />
+        <img src={icons.groupChatIcon} className="chat1-currentChat__chatProperties__icon" alt="Group chat: " />
         );
 
 
@@ -57,7 +61,7 @@ function ChatProperties({chat, onUpdateChatName, onUpdateChatUsers}) {
                     defaultValue={chat && chat.displayName}
                 />
                 <img 
-                    src={updateChatNameIcon} 
+                    src={icons.updateIcon} 
                     className="chat1-currentChat__chatProperties__icon_small" 
                     alt="Update" 
                     onMouseDown={ ()=> updateChatName()}
@@ -71,7 +75,7 @@ function ChatProperties({chat, onUpdateChatName, onUpdateChatUsers}) {
                 {
                      chat.type === constants.CHAT_TYPE_GROUP && (
                         <img 
-                            src={editChatNameIcon} 
+                            src={icons.editIcon} 
                             className="chat1-currentChat__chatProperties__icon_small" 
                             alt="Edit" 
                             onClick={ () => setEditChatNameMode(true)}

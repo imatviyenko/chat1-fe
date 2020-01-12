@@ -21,12 +21,14 @@ function CurrentChat() {
     const services = useContext(ServicesContext);
     const chats = useContext(ChatsContext);
     const chatsList = chats && chats.chatsList;
-    const currentChatStateFromContext = Array.isArray(chatsList) && chatsList.find( c => c.isSelected);
+    const selectedChatGuid = chats && chats.selectedChatGuid;    
+    const currentChatStateFromContext = Array.isArray(chatsList) && chatsList.find( c => c.guid === selectedChatGuid);
     const [currentChat, setCurrentChat] = useState(currentChatStateFromContext);
     const [currentChatUpdate, setCurrentChatUpdate] = useState(null);
 
     console.log(`CurrentChat -> chats: ${JSON.stringify(chats)}`);
     console.log(`CurrentChat -> chatsList: ${JSON.stringify(chatsList)}`);
+    console.log(`CurrentChat -> selectedChatGuid: ${JSON.stringify(selectedChatGuid)}`);
     console.log(`CurrentChat -> currentChatStateFromContext: ${JSON.stringify(currentChatStateFromContext)}`);
     console.log(`CurrentChat -> currentChat: ${JSON.stringify(currentChat)}`);
 
@@ -43,7 +45,7 @@ function CurrentChat() {
         const asynFunc = async () => {
             //console.log(`CurrentChat.effect ->  updateBackendFlippingFlag: ${updateBackendFlippingFlag}`);
             console.log(`CurrentChat.effect ->  currentChat: ${JSON.stringify(currentChat)}`);
-            if (currentChatUpdate === null) return;
+            if (!currentChatUpdate) return;
             
             try {
                 const result = await services.updateChat(currentChatUpdate);

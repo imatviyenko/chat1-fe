@@ -1,6 +1,8 @@
 import React from 'react';
 
-import userOnlineIcon from './user-online.png';
+//import userOnlineIcon from './user-online.png';
+import icons from '../../icons';
+
 import './ContactsList.css';
 import constants from '../../constants';
 
@@ -16,7 +18,7 @@ export default function ContactsList({contactsList, onContactSelected, onSelecte
     
         const contactOnlineIconElement = contact.isOnline ? 
             (
-                <img src={userOnlineIcon} className="chat1-contacts__contactIsOnlineIcon" alt="User online: " />
+                <img src={icons.userOnlineIcon} className="chat1-contacts__contactIsOnlineIcon" alt="User online: " />
             )
             :
             null;    

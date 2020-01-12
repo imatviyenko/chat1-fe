@@ -11,10 +11,13 @@ import {ACTION_CHAT_FETCH_ALL, ACTION_CHAT_SELECTED, ACTION_CHAT_RESET_SELECTED,
 
 import IconButton from '../IconButton/IconButton';
 
+/*
 import privateChatIcon from './private-chat.png';
 import groupChatIcon from './group-chat.png';
 import messageIcon from './message.png';
 import addChatIcon from './add-icon.png';
+*/
+import icons from '../../icons';
 import './Chats.css';
 
 
@@ -27,9 +30,11 @@ function Chats() {
     const services = useContext(ServicesContext);
     const chats = useContext(ChatsContext);
     const chatsList = chats && chats.chatsList;
+    const selectedChatGuid = chats && chats.selectedChatGuid;    
     const [addGroupChatFlippingFlag, setAddGroupChatFlippingFlag] = useState(null); // three state flag, can be either null, true or false
     console.log(`Chats -> chats: ${JSON.stringify(chats)}`);
     console.log(`Chats -> chatsList: ${JSON.stringify(chatsList)}`);
+    console.log(`Chats -> selectedChatGuid: ${JSON.stringify(selectedChatGuid)}`);
     console.log(`Chats -> addGroupChatFlippingFlag: ${addGroupChatFlippingFlag}`);
 
     // effect for fetching the list of chats for the current user
@@ -84,11 +89,11 @@ function Chats() {
       
       const chatIconElement = chat.type === constants.CHAT_TYPE_PRIVATE ? 
         (
-          <img src={privateChatIcon} className="chat1-chats__chatIcon" alt="Private chat: " />
+          <img src={icons.privateChatIcon} className="chat1-chats__chatIcon" alt="Private chat: " />
         )
         :
         (
-          <img src={groupChatIcon} className="chat1-chats__chatIcon" alt="Group chat: " />
+          <img src={icons.groupChatIcon} className="chat1-chats__chatIcon" alt="Group chat: " />
         );
           
       let className = "chat1-chats__chat";
@@ -96,7 +101,7 @@ function Chats() {
         className += " chat1-chats__chat_private"
         :
         className += " chat1-chats__chat_group";
-      if (chat.isSelected) className += " chat1-chats__chat_selected"
+      if (chat.guid === selectedChatGuid) className += " chat1-chats__chat_selected";
         
     
       const onChatSelected = (chat) => {
@@ -104,17 +109,8 @@ function Chats() {
         dispatch({type: ACTION_CHAT_SELECTED, guid: chat.guid});
       };
 
-      const onSelectedChatBlur = () => {
-        console.log(`Chats.onSelectedChatBlur invoked`);
-        dispatch({type: ACTION_CHAT_RESET_SELECTED});
-      };
-    
-  
-  
-      //const onBlur = chat.isSelected ? onSelectedChatBlur : null;
-      const onBlur = null;
       return (
-          <li className={className} key={chat.guid} tabIndex="0" onFocus={ () => onChatSelected(chat) } onBlur={onBlur}>
+          <li className={className} key={chat.guid} tabIndex="0" onFocus={ () => onChatSelected(chat) }>
               {chatIconElement} <span>{chat.displayName}</span>
           </li>
       );
@@ -130,7 +126,7 @@ function Chats() {
           <h3>Chats</h3>
           <div className="chat1-chats__buttons">
             <IconButton 
-              icon={addChatIcon}
+              icon={icons.addIcon}
               iconAlt="Add Group Chat"
               label="Add Group Chat"
               onClick={addGroupChat}

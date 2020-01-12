@@ -45,6 +45,18 @@ function selectPrivateChatForContact(chats, contactEmail) {
     return newChats;
 }
 
+function getPrivateChatGuidForContact(chats, contactEmail) {
+    console.log(`getPrivateChatGuidForContact -> chats: ${JSON.stringify(chats)}`);
+    console.log(`getPrivateChatGuidForContact -> contactEmail: ${contactEmail}`);
+
+    if (!Array.isArray(chats)) return null;
+    const chat = chats.find( c => c.type === constants.CHAT_TYPE_PRIVATE && c.users.find( u => u.email === contactEmail) );
+    console.log(`getPrivateChatGuidForContact -> chat: ${JSON.stringify(chat)}`);
+    
+    return chat && chat.guid;
+}
+
+
 function resetSelectedChat(chats) {
     const newChats = Array.isArray(chats) ? [...chats] : [];
     return newChats.map( c => {
@@ -59,6 +71,14 @@ function resetSelectedChat(chats) {
 }
 
 function updateChat(chats, chat) {
+    return chats.map( c => {
+        if (c.guid.toLowerCase() === chat.guid.toLowerCase()) return chat;
+        return c;
+    });
+}
+
+/*
+function updateChat(chats, chat) {
     const _chats = resetSelectedChat(chats);
     return _chats.map( c => {
         if (c.guid.toLowerCase() === chat.guid.toLowerCase()) return {
@@ -68,11 +88,16 @@ function updateChat(chats, chat) {
         return c;
     });
 }
+*/
 
 
 function addChat(chats, chat) {
-    const _chats = resetSelectedChat(chats);
-    return [{...chat, isSelected: true}, ..._chats];
+    return [chat, ...chats];
+}
+
+
+function removeChat(chats, chat) {
+    return chats.filter( c => c.guid !== chat.guid);
 }
 
 
@@ -141,32 +166,46 @@ export default function (state, action, contacts, profile) {
         case ACTION_CHAT_SELECTED:
             return {
                 ...state,
-                chatsList: selectChat(state.chatsList, action.guid)
+                selectedChatGuid: action.guid
+                //chatsList: selectChat(state.chatsList, action.guid)
             };
 
         case ACTION_CONTACT_SELECTED:
             return {
                 ...state,
-                chatsList: selectPrivateChatForContact(state.chatsList, action.email)
+                selectedChatGuid: getPrivateChatGuidForContact(state.chatsList, action.email)
+                //chatsList: selectPrivateChatForContact(state.chatsList, action.email)
             };
     
 
         case ACTION_CHAT_RESET_SELECTED:
             return {
                 ...state,
-                chatsList: resetSelectedChat(state.chatsList)
+                selectedChatGuid: null
+                //chatsList: resetSelectedChat(state.chatsList)
             };            
     
         case ACTION_CHAT_UPDATED:
+            // check for the case when the updated chat no longer contains my own email because I or somebody else deleted myself from the chat users
+            if (!action.chat.users.find( u => u.email === profile.email)) {
+                return {
+                    ...state,
+                    chatsList: removeChat(state.chatsList, action.chat),
+                    selectedChatGuid: action.chat.guid
+                };
+            }
+
             return {
                 ...state,
-                chatsList: updateChat(state.chatsList, action.chat)
+                chatsList: updateChat(state.chatsList, action.chat),
+                selectedChatGuid: action.chat.guid
             };
         
         case ACTION_CHAT_ADD_GROUP_CHAT:
             return {
                 ...state,
-                chatsList: addChat(state.chatsList, action.chat)
+                chatsList: addChat(state.chatsList, action.chat),
+                selectedChatGuid: action.chat.guid
             };
 
 

@@ -3,10 +3,13 @@ import React, {useContext, useState, useEffect} from 'react';
 import AppContext from '../../context/AppContext';
 import ContactsContext from '../../context/ContactsContext';
 
+/*
 import editModeIcon from './pen-icon.png';
 import updateIcon from './check-1-icon.png';
 import cancelIcon from './close-icon.png';
 import addContactIcon from './find-icon.png';
+*/
+import icons from '../../icons';
 import './ContactPicker.css';
 
 const augmentContactsLists = (currentContactsList, contactsList, profile) => {
@@ -14,7 +17,9 @@ const augmentContactsLists = (currentContactsList, contactsList, profile) => {
 
     const allUsers = [...contactsList, profile];
     return currentContactsList.map( c => {
-        return allUsers.find( c2 => c2.email.toLowerCase() === c.email.toLowerCase() );
+        const userFromMyContacts = allUsers.find( c2 => c2.email.toLowerCase() === c.email.toLowerCase() );
+        if (userFromMyContacts) return userFromMyContacts;
+        return c;
     });
 }
 
@@ -114,7 +119,7 @@ function ContactPicker({initialContactsList, onUpdateContactsList, readonly}) {
 
     const editModeIconElement = !editMode && !readonly && (
         <img 
-            src={editModeIcon} 
+            src={icons.editIcon} 
             className="chat1-contactPicker__icon" 
             alt="Edit" 
             onClick={ ()=> setEditMode(true) }
@@ -124,7 +129,7 @@ function ContactPicker({initialContactsList, onUpdateContactsList, readonly}) {
 
     const updateIconElement = editMode && (
         <img 
-            src={updateIcon} 
+            src={icons.updateIcon} 
             className="chat1-contactPicker__icon chat1-contactPicker__icon_update" 
             alt="Update" 
             onClick={ update }
@@ -133,7 +138,7 @@ function ContactPicker({initialContactsList, onUpdateContactsList, readonly}) {
 
     let cancelIconElement = editMode && (
         <img 
-            src={cancelIcon} 
+            src={icons.cancelIcon} 
             className="chat1-contactPicker__icon" 
             alt="Cancel" 
             onClick={ cancel }

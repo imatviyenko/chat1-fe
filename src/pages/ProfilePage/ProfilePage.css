@@ -14,3 +14,10 @@
     text-align: left;
     font-weight: bold;
 }
+
+
+.chat1-profilePage__icon_small {
+    height: 2rem;
+    vertical-align: middle;
+    margin-left: 2px;
+}
