@@ -11,7 +11,7 @@ import {ACTION_CHAT_UPDATED} from '../../state/chatsReducer';
 
 
 import ChatProperties from './ChatProperties';
-import ChatMessages from './ChatMessages';
+import ChatMessages from '../ChatMessages/ChatMessages';
 
 import './CurrentChat.css';
 

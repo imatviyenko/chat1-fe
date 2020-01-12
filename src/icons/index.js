@@ -7,6 +7,7 @@ import userOnlineIcon from './user-online.png';
 import editIcon from './pen-icon.png';
 import cancelIcon from './close-icon.png';
 import findIcon from './find-icon.png';
+import sendIcon from './msg-2-icon.png';
 
 
 export default {
@@ -18,5 +19,6 @@ export default {
     userOnlineIcon,
     editIcon,
     cancelIcon,
-    findIcon
+    findIcon,
+    sendIcon
 };

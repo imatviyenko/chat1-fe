@@ -7,7 +7,7 @@ function References() {
         <h3>References</h3>
         <ul>
           <li>
-            <a href='http://www.iconarchive.com/show/100-flat-2-icons-by-graphicloads/chat-2-icon.html'> Free icons at IconArchive </a>
+            <a href='http://www.iconarchive.com/show/100-flat-2-icons-by-graphicloads.html'> Free icons at IconArchive </a>
           </li>
         </ul>
     </div>

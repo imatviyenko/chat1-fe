@@ -22,6 +22,7 @@ import ServicesContext from './context/ServicesContext';
 // Contexts for accessing slices of the app state
 import ContactsContext from './context/ContactsContext';
 import ChatsContext from './context/ChatsContext';
+import MessagesContext  from './context/ChatsContext';
 
 
 import initialAppState from './state/initialAppState';
@@ -44,6 +45,7 @@ function App() {
     <ServicesContext.Provider value={services}>
     <ContactsContext.Provider value={state.contacts}>
     <ChatsContext.Provider value={state.chats}>
+    <MessagesContext.Provider value={state.messages}>
       <Router>
           <Switch>
               <Route path="/login">
@@ -69,6 +71,7 @@ function App() {
               </ProtectedRoute>
         </Switch>
       </Router>
+    </MessagesContext.Provider>
     </ChatsContext.Provider>
     </ContactsContext.Provider>
     </ServicesContext.Provider>

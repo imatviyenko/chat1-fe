@@ -2,6 +2,7 @@ import authReducer from "./authReducer";
 import profileReducer from "./profileReducer";
 import contactsReducer from "./contactsReducer";
 import chatsReducer from "./chatsReducer";
+import messagesReducer from "./messagesReducer";
 
 
 export const ACTION_APP_ERROR = 'ACTION_APP_ERROR';
@@ -28,6 +29,7 @@ export default function (state, action) {
         auth: authReducer(state.auth, action),
         profile: profileReducer(state.profile, action),
         contacts: contactsReducer(state.contacts, action),
-        chats: chatsReducer(state.chats, action, state.contacts, state.profile)
+        chats: chatsReducer(state.chats, action, state.contacts, state.profile),
+        messages: messagesReducer(state.messages, action, state)
     }
 }
