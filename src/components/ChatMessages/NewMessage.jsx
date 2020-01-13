@@ -8,11 +8,10 @@ import './NewMessage.css';
 export default function NewMessage({onSend}) {
     const inputRefMessageText = useRef(null);
 
-
     const sendMessage = () => {
         console.log(`NewMessage.onSend invoked`);
         const messageText = inputRefMessageText && inputRefMessageText.current && inputRefMessageText.current.checkValidity() && inputRefMessageText.current.value;
-
+        
         if (messageText) onSend(messageText);
     };
 

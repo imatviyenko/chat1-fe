@@ -26,24 +26,24 @@ function ChatMessages() {
 
     const messages = useContext(MessagesContext);
     const currentChatMessages = currentChat ? messages[currentChat.guid] : [];
-    const lastMessageSequenceNumber = currentChatMessages.lenght > 0 ? currentChatMessages[0].sequenceNumber : null; 
+    const lastMessageTimestamp = currentChatMessages.length > 0 ? currentChatMessages[0].timestamp : null; 
     
     console.log(`ChatMessages -> currentChat: ${JSON.stringify(currentChat)}`);
     console.log(`ChatMessages -> currentChatMessages: ${JSON.stringify(currentChatMessages)}`);
-    console.log(`ChatMessages -> lastMessageSequenceNumber: ${JSON.stringify(lastMessageSequenceNumber)}`);
+    console.log(`ChatMessages -> lastMessageTimestamp: ${JSON.stringify(lastMessageTimestamp)}`);
 
-    const [messageToSend, setMessageToSend] = useState(null);
+    const [messageTextToSend, setMessageTextToSend] = useState(null);
 
     // effect to call api to send message
     const effectFunc = () => { 
         const asynFunc = async () => {
-            console.log(`ChatMessages.effect ->  messageToSend: ${messageToSend}`);
-            if (!messageToSend) return;
+            console.log(`ChatMessages.effect ->  messageTextToSend: ${messageTextToSend}`);
+            if (!messageTextToSend) return;
             
             try {
-                const result = await services.sendMessage(messageToSend);
+                const result = await services.sendMessage(selectedChatGuid, messageTextToSend);
                 if (result.status === constants.ERROR_SUCCESS) {
-                    const result2 = await services.fetchMessages(lastMessageSequenceNumber); // get the page with the latest messages
+                    const result2 = await services.fetchMessagesAfterDate(lastMessageTimestamp); // get the page with the latest messages
                     if (result2.status === constants.ERROR_SUCCESS) {
                         dispatch({type: ACTION_MESSAGE_FETCH_PAGE, messages: result2.messages});
                         setMessageToSend(null);
@@ -67,9 +67,9 @@ function ChatMessages() {
     useEffect(effectFunc, [messageToSend]); // fire effect when profileUpdate object changes, ignore null value
 
 
-    const onSend = message=> {
-        console.log(`ChatMessages.onSend -> message: ${message}`);
-        setMessageToSend(message);
+    const onSend = messageText => {
+        console.log(`ChatMessages.onSend -> messageText: ${messageText}`);
+        setMessageTextToSend(messageText);
     };
 
     return (
