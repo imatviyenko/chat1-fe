@@ -5,9 +5,18 @@ export async function sendMessage(chatGuid, messageText) {
         chatGuid,
         messageText
     };
-    return this.callApiEndpoint('messages', 'POST', requestBody, this.authContext.token);
+    return this.callApiEndpoint(`chats/${chatGuid}/messages`, 'POST', requestBody, this.authContext.token);
 }
 
+export async function fetchMessagesAfterSequenceNumber(chatGuid, sequenceNumber) {
+    if (!(this.authContext && this.authContext.token)) throw new Error('No authentication context');
+
+    const url = sequenceNumber ? `chats/${chatGuid}/messages?after=${sequenceNumber}` : `chats/${chatGuid}/messages`;
+    return this.callApiEndpoint(url, 'GET', null, this.authContext.token);
+}
+
+
+/*
 function dateToString(date) {
     return encodeURI(date.toISOString());
 }
@@ -18,3 +27,4 @@ export async function fetchMessagesAfterDate(cutoffDate) {
     const cutoffDateAsString = dateToString(cutoffDate);
     return this.callApiEndpoint(`messages?after=${cutoffDateAsString}`, 'GET', null, this.authContext.token);
 }
+*/

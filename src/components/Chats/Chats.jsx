@@ -29,6 +29,7 @@ function Chats() {
     const dispatch = useContext(AppReducerDispatchContext);
     const services = useContext(ServicesContext);
     const chats = useContext(ChatsContext);
+    const chatsDataVersion = chats && chats.dataVersion;
     const chatsList = chats && chats.chatsList;
     const selectedChatGuid = chats && chats.selectedChatGuid;    
     const [addGroupChatFlippingFlag, setAddGroupChatFlippingFlag] = useState(null); // three state flag, can be either null, true or false
@@ -57,7 +58,7 @@ function Chats() {
         }
         asynFunc();
     };
-    useEffect(effectFunc1, [chats.dataVersion]); // run once when the component is mounted and whenever chats.dataVersion changes
+    useEffect(effectFunc1, [chatsDataVersion]); // run once when the component is mounted and whenever chats.dataVersion changes
 
 
     const effectFunc2 = () => { 

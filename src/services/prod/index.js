@@ -6,6 +6,7 @@ import * as dataExports from './data';
 import * as emailExports from './email';
 import * as contactsExports from './contacts';
 import * as chatsExports from './chats';
+import * as messagesExports from './messages';
 import watcher from './watcher';
 
 
@@ -29,6 +30,7 @@ const services = {
     ...emailExports,
     ...contactsExports,
     ...chatsExports,
+    ...messagesExports,
     watcher
 }
 

@@ -80,14 +80,19 @@ function onError(error) {
 function onMessage(e) {
     console.log(`watcher.onMessage -> e: ${JSON.stringify(e)}`);
     console.log(`watcher.onMessage -> data: ${JSON.stringify(e.data)}`);
+    const message = JSON.parse(e.data);
+    console.log(`watcher.onMessage -> message: ${JSON.stringify(message)}`);
     console.log(`watcher.onMessage -> this:`);
     console.log(this);
-    const message = JSON.parse(e.data);
+
+    //this.dispatch({type: ACTION_CONTACT_ONLINE, email: 'test123@gmail.com'});    
 
     switch (message.event) {
         
         case constants.EVENT_USER_ONLINE:
+            console.log(`watcher.onMessage -> dispatching ACTION_CONTACT_ONLINE event`);
             this.dispatch({type: ACTION_CONTACT_ONLINE, email: message.data});
+            console.log(`watcher.onMessage -> ACTION_CONTACT_ONLINE event dispatched`);
             return;
 
         case constants.EVENT_USER_OFFLINE:

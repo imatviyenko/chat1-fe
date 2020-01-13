@@ -22,7 +22,7 @@ import ServicesContext from './context/ServicesContext';
 // Contexts for accessing slices of the app state
 import ContactsContext from './context/ContactsContext';
 import ChatsContext from './context/ChatsContext';
-import MessagesContext  from './context/ChatsContext';
+import MessagesContext  from './context/MessagesContext';
 
 
 import initialAppState from './state/initialAppState';
@@ -38,6 +38,8 @@ function App() {
 
   console.log('App -> state:');
   console.log(state);
+
+
 
   return (
     <AppContext.Provider value={state}>

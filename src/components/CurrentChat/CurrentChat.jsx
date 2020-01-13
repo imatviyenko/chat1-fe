@@ -88,10 +88,10 @@ function CurrentChat() {
     return (
         <div className="chat1-currentChat">
             <div className="chat1-currentChat__row1">
-                <ChatProperties chat={currentChat} onUpdateChatName={onUpdateChatName} onUpdateChatUsers={onUpdateChatUsers}/>
+                {currentChat && <ChatProperties chat={currentChat} onUpdateChatName={onUpdateChatName} onUpdateChatUsers={onUpdateChatUsers}/>}
             </div>
             <div className="chat1-currentChat__row2">
-                <ChatMessages chat={currentChat}/>
+                {currentChat && <ChatMessages chat={currentChat}/>}
             </div>
         </div>
     );

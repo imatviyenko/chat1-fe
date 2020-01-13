@@ -8,10 +8,10 @@ export const ACTION_CHAT_RESET_SELECTED = 'ACTION_CHAT_RESET_SELECTED';
 export const ACTION_CHAT_UPDATED = 'ACTION_CHAT_UPDATED';
 export const ACTION_CHAT_ADD_GROUP_CHAT = 'ACTION_CHAT_ADD_GROUP_CHAT';
 
-const getContactDisplayName = (chat, contactsList, profile) => {
-    console.log(`getContactDisplayName -> chat: ${JSON.stringify(chat)}`);
-    console.log(`getContactDisplayName -> contactsList: ${JSON.stringify(contactsList)}`);
-    console.log(`getContactDisplayName -> profile: ${JSON.stringify(profile)}`);
+export const getContactDisplayName = (chat, contactsList, profile) => {
+    console.log(`chatsReducer.getContactDisplayName -> chat: ${JSON.stringify(chat)}`);
+    console.log(`chatsReducer.getContactDisplayName -> contactsList: ${JSON.stringify(contactsList)}`);
+    console.log(`chatsReducer.getContactDisplayName -> profile: ${JSON.stringify(profile)}`);
 
     if (!Array.isArray(contactsList)) return null;
     if (!profile) return null;
@@ -22,28 +22,6 @@ const getContactDisplayName = (chat, contactsList, profile) => {
     const privateChatContact = contactsList.find(c => c.email.toLowerCase() === privateChatUser.email.toLowerCase());
     return privateChatContact && (privateChatContact.displayName || privateChatContact.email);
 };
-
-
-function selectChat(chats, chatGuid) {
-    const newChats = Array.isArray(chats) ? [...chats] : [];
-    return newChats.map( c => {
-        return {
-            ...c,
-            isSelected: c.guid === chatGuid
-        };
-    });
-}
-
-function selectPrivateChatForContact(chats, contactEmail) {
-    const newChats = Array.isArray(chats) ? [...chats] : [];
-    const currentSelectedChatIndex = newChats.findIndex( c => c.isSelected);
-    const newSelectedChatIndex = newChats.findIndex( c => c.type === constants.CHAT_TYPE_PRIVATE && c.users.find( u => u.email === contactEmail));
-    if (newSelectedChatIndex !== -1) {
-        if (currentSelectedChatIndex !== -1) newChats[currentSelectedChatIndex].isSelected = false;
-        newChats[newSelectedChatIndex].isSelected = true;
-    }
-    return newChats;
-}
 
 function getPrivateChatGuidForContact(chats, contactEmail) {
     console.log(`getPrivateChatGuidForContact -> chats: ${JSON.stringify(chats)}`);
@@ -56,40 +34,12 @@ function getPrivateChatGuidForContact(chats, contactEmail) {
     return chat && chat.guid;
 }
 
-
-function resetSelectedChat(chats) {
-    const newChats = Array.isArray(chats) ? [...chats] : [];
-    return newChats.map( c => {
-        if (c.isSelected) {
-            return {
-                ...c,
-                isSelected: false
-            };
-        }
-        return c;
-    });
-}
-
 function updateChat(chats, chat) {
     return chats.map( c => {
         if (c.guid.toLowerCase() === chat.guid.toLowerCase()) return chat;
         return c;
     });
 }
-
-/*
-function updateChat(chats, chat) {
-    const _chats = resetSelectedChat(chats);
-    return _chats.map( c => {
-        if (c.guid.toLowerCase() === chat.guid.toLowerCase()) return {
-            ...chat,
-            isSelected: true
-        };
-        return c;
-    });
-}
-*/
-
 
 function addChat(chats, chat) {
     return [chat, ...chats];

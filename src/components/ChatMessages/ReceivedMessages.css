@@ -1,0 +1,16 @@
+.chat1-receivedMessages__message {
+    display: flex;
+    flex-direction: column;
+}
+
+.receivedMessages__message__timestamp {
+    
+}
+
+.receivedMessages__message__author {
+
+}
+
+.receivedMessages__message__text {
+
+}

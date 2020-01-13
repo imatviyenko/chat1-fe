@@ -30,6 +30,6 @@ export default function (state, action) {
         profile: profileReducer(state.profile, action),
         contacts: contactsReducer(state.contacts, action),
         chats: chatsReducer(state.chats, action, state.contacts, state.profile),
-        messages: messagesReducer(state.messages, action, state)
+        messages: messagesReducer(state.messages, action, state.contacts, state.profile)
     }
 }

@@ -7,6 +7,8 @@ const initialState = {
     contacts: {
     },
     chats: {
+    },
+    messages: {
     }
 };
 
