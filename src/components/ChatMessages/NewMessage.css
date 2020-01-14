@@ -1,6 +1,7 @@
 .chat1-newMessage {
     display: flex;
     flex-direction: row;
+    padding: 0.5rem;
 }
 
 

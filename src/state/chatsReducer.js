@@ -1,5 +1,6 @@
 import constants from '../constants';
 import {ACTION_CONTACT_ADD, ACTION_CONTACT_FETCH_ALL, ACTION_CONTACT_SELECTED} from './contactsReducer';
+import {ACTION_MESSAGE_REFRESH} from './messagesReducer';
 
 export const ACTION_CHAT_FETCH_ALL = 'ACTION_CHAT_FETCH_ALL';
 export const ACTION_CHAT_REFRESH = 'ACTION_CHAT_REFRESH';
@@ -48,6 +49,20 @@ function addChat(chats, chat) {
 
 function removeChat(chats, chat) {
     return chats.filter( c => c.guid !== chat.guid);
+}
+
+function setNewMessagesAvailableStatus(chats, newMessageChatGuid) {
+    return chats.map( c => {
+        if (c.guid.toLowerCase() === newMessageChatGuid.toLowerCase()) return {...c, newMessagesAvailable: true};
+        return c;
+    });
+}
+
+function resetNewMessagesAvailableStatus(chats, selectedChatGuid) {
+    return chats.map( c => {
+        if (c.guid.toLowerCase() === selectedChatGuid.toLowerCase()) return {...c, newMessagesAvailable: false};
+        return c;
+    });
 }
 
 
@@ -116,15 +131,15 @@ export default function (state, action, contacts, profile) {
         case ACTION_CHAT_SELECTED:
             return {
                 ...state,
-                selectedChatGuid: action.guid
-                //chatsList: selectChat(state.chatsList, action.guid)
+                selectedChatGuid: action.guid,
+                chatsList: resetNewMessagesAvailableStatus(state.chatsList, action.guid)
             };
 
         case ACTION_CONTACT_SELECTED:
+            const selectedChatGuid = getPrivateChatGuidForContact(state.chatsList, action.email);
             return {
                 ...state,
-                selectedChatGuid: getPrivateChatGuidForContact(state.chatsList, action.email)
-                //chatsList: selectPrivateChatForContact(state.chatsList, action.email)
+                selectedChatGuid
             };
     
 
@@ -132,7 +147,6 @@ export default function (state, action, contacts, profile) {
             return {
                 ...state,
                 selectedChatGuid: null
-                //chatsList: resetSelectedChat(state.chatsList)
             };            
     
         case ACTION_CHAT_UPDATED:
@@ -158,6 +172,13 @@ export default function (state, action, contacts, profile) {
                 selectedChatGuid: action.chat.guid
             };
 
+        case ACTION_MESSAGE_REFRESH:
+            if (state.selectedChatGuid && (state.selectedChatGuid.toLowerCase() === action.chatGuid.toLowerCase())) return state;
+            return {
+                ...state,
+                chatsList: setNewMessagesAvailableStatus(state.chatsList, action.chatGuid)
+            };
+    
 
         default:
             return state;

@@ -10,14 +10,13 @@ export default function ReceivedMessages({messages}) {
     const mapFunc = message => {
         return (
             <li className="chat1-receivedMessages__message" key={message.sequenceNumber} >
-                <div className="chat1-receivedMessages__message__timestamp">
-                    <span>{message.createdAt}</span>
-                </div>
-                <div className="chat1-receivedMessages__message__author">
-                    <span>{message.authorDisplayName}</span>
-                </div>
                 <div className="chat1-receivedMessages__message__text">
                     <span>{message.text}</span>
+                </div>
+
+                <div className="chat1-receivedMessages__message__info">
+                    <span className="chat1-receivedMessages__message__author">{message.authorDisplayName}</span>
+                    <span className="chat1-receivedMessages__message__timestamp">{(new Date(message.createdAt)).toLocaleString()}</span>
                 </div>
             </li>
         );

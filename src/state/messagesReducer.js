@@ -1,4 +1,5 @@
 export const ACTION_MESSAGE_FETCH = 'ACTION_MESSAGE_FETCH';
+export const ACTION_MESSAGE_REFRESH = 'ACTION_MESSAGE_REFRESH';
 
 export const getContactDisplayNameByEmail = (email, contactsList, profile) => {
     console.log(`messagesReducer.getContactDisplayNameByEmail -> email: ${email}`);
@@ -18,7 +19,11 @@ export const getContactDisplayNameByEmail = (email, contactsList, profile) => {
 };
 
 function insertMessages(messagesInChats, chatGuid, messages, contactsList, profile) {
-    const _messagesInThisChat = messagesInChats && Array.isArray(messagesInChats[chatGuid]) ? [ ...messagesInChats[chatGuid]] : [];
+    const _messagesInThisChat = messagesInChats && messagesInChats[chatGuid] && Array.isArray(messagesInChats[chatGuid].messages) ? 
+        [ ...messagesInChats[chatGuid].messages] 
+        : 
+        [];
+
     const _messagesFromServer = messages.sort( (m1, m2) => m1.sequenceNumber - m2.sequenceNumber ); // sort messages which came from the server by ascending sequenceNumber
     const lastChatMessageSequenceNumber = _messagesInThisChat[0] && _messagesInThisChat[0].sequenceNumber;
     const firstServerMessageSequenceNumber = _messagesFromServer[_messagesFromServer.length -1] && _messagesFromServer[_messagesFromServer.length -1].sequenceNumber;
@@ -47,10 +52,18 @@ function insertMessages(messagesInChats, chatGuid, messages, contactsList, profi
     if (needResorting) _messages = _messages.sort((m1, m2) => m2.sequenceNumber - m1.sequenceNumber); // sort all messages for the current chat by descending sequenceNumber
     
     const _messagesInChats = messagesInChats || {};
-    _messagesInChats[chatGuid] = _messages;
+    _messagesInChats[chatGuid] = _messagesInChats[chatGuid] || {};
+    _messagesInChats[chatGuid].messages = _messages;
     return _messagesInChats;
 }
 
+
+function updateDataVersion(messagesInChats, chatGuid) {
+    const _messagesInChats = messagesInChats || {};
+    _messagesInChats[chatGuid] = _messagesInChats[chatGuid] || {};
+    _messagesInChats[chatGuid].dataVersion = (_messagesInChats[chatGuid].dataVersion || 0) + 1;
+    return _messagesInChats;
+}
 
 export default function (state, action, contacts, profile) {
     console.log(`messageReducer -> action: ${JSON.stringify(action)}`);
@@ -63,6 +76,13 @@ export default function (state, action, contacts, profile) {
                 ...state,
                 messagesInChats: insertMessages(state.messagesInChats, action.chatGuid, action.messages, contacts.contactsList, profile)
             };
+
+        case ACTION_MESSAGE_REFRESH:
+            return {
+                ...state,
+                messagesInChats: updateDataVersion(state.messagesInChats, action.chatGuid)
+            };
+    
 
         default:
             return state;

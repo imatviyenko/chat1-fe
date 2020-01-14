@@ -90,11 +90,11 @@ function Chats() {
       
       const chatIconElement = chat.type === constants.CHAT_TYPE_PRIVATE ? 
         (
-          <img src={icons.privateChatIcon} className="chat1-chats__chatIcon" alt="Private chat: " />
+          <img src={icons.privateChatIcon} className="chat1-chats__chatIcon" alt="Private chat" />
         )
         :
         (
-          <img src={icons.groupChatIcon} className="chat1-chats__chatIcon" alt="Group chat: " />
+          <img src={icons.groupChatIcon} className="chat1-chats__chatIcon" alt="Group chat" />
         );
           
       let className = "chat1-chats__chat";
@@ -110,9 +110,14 @@ function Chats() {
         dispatch({type: ACTION_CHAT_SELECTED, guid: chat.guid});
       };
 
+
+      const newMessagesAvailableIconElement = chat.newMessagesAvailable && (
+        <img src={icons.messageIcon} className="chat1-chats__chatIcon" alt="New messages" />
+      );
+
       return (
           <li className={className} key={chat.guid} tabIndex="0" onFocus={ () => onChatSelected(chat) }>
-              {chatIconElement} <span>{chat.displayName}</span>
+              {chatIconElement} <span>{chat.displayName}</span> {newMessagesAvailableIconElement}
           </li>
       );
     }    

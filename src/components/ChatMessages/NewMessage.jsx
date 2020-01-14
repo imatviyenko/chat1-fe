@@ -12,7 +12,10 @@ export default function NewMessage({onSend}) {
         console.log(`NewMessage.onSend invoked`);
         const messageText = inputRefMessageText && inputRefMessageText.current && inputRefMessageText.current.checkValidity() && inputRefMessageText.current.value;
         
-        if (messageText) onSend(messageText);
+        if (messageText) {
+            onSend(messageText);
+            inputRefMessageText && inputRefMessageText.current && (inputRefMessageText.current.value = "");
+        }
     };
 
     const sendButtonElement = (

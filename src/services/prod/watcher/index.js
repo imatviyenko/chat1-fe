@@ -1,6 +1,7 @@
 import constants from '../../../constants';
 import {ACTION_CONTACT_ONLINE, ACTION_CONTACT_OFFLINE, ACTION_CONTACT_REFRESH} from '../../../state/contactsReducer';
 import {ACTION_CHAT_REFRESH} from '../../../state/chatsReducer';
+import {ACTION_MESSAGE_REFRESH} from '../../../state/messagesReducer';
 import {ACTION_AUTHENTICATION_LOGOUT} from '../../../state/authReducer';
 
 function setDispatch(dispatch) {
@@ -85,14 +86,10 @@ function onMessage(e) {
     console.log(`watcher.onMessage -> this:`);
     console.log(this);
 
-    //this.dispatch({type: ACTION_CONTACT_ONLINE, email: 'test123@gmail.com'});    
-
     switch (message.event) {
         
         case constants.EVENT_USER_ONLINE:
-            console.log(`watcher.onMessage -> dispatching ACTION_CONTACT_ONLINE event`);
             this.dispatch({type: ACTION_CONTACT_ONLINE, email: message.data});
-            console.log(`watcher.onMessage -> ACTION_CONTACT_ONLINE event dispatched`);
             return;
 
         case constants.EVENT_USER_OFFLINE:
@@ -105,6 +102,13 @@ function onMessage(e) {
 
         case constants.EVENT_CHAT_UPDATED:
             this.dispatch({type: ACTION_CHAT_REFRESH});
+            return;
+
+        case constants.EVENT_CHAT_NEW_MESSAGES:
+            this.dispatch({
+                type: ACTION_MESSAGE_REFRESH,
+                ...message.data
+            });
             return;            
     }
 }
