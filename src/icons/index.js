@@ -8,6 +8,7 @@ import editIcon from './pen-icon.png';
 import cancelIcon from './close-icon.png';
 import findIcon from './find-icon.png';
 import sendIcon from './msg-2-icon.png';
+import arrowDownIcon from './arrow-down-icon.png';
 
 
 
@@ -21,5 +22,6 @@ export default {
     editIcon,
     cancelIcon,
     findIcon,
-    sendIcon
+    sendIcon,
+    arrowDownIcon
 };

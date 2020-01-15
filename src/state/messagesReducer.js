@@ -18,12 +18,13 @@ export const getContactDisplayNameByEmail = (email, contactsList, profile) => {
     return contact && (contact.displayName || contact.email);
 };
 
-function insertMessages(messagesInChats, chatGuid, messages, contactsList, profile) {
+function insertMessages(messagesInChats, chatGuid, messages, moreDataAvailable, contactsList, profile) {
     const _messagesInThisChat = messagesInChats && messagesInChats[chatGuid] && Array.isArray(messagesInChats[chatGuid].messages) ? 
         [ ...messagesInChats[chatGuid].messages] 
         : 
         [];
 
+    console.log(`messagesReducer.insertMessages -> messages: ${JSON.stringify(messages)}`);
     const _messagesFromServer = messages.sort( (m1, m2) => m1.sequenceNumber - m2.sequenceNumber ); // sort messages which came from the server by ascending sequenceNumber
     const lastChatMessageSequenceNumber = _messagesInThisChat[0] && _messagesInThisChat[0].sequenceNumber;
     const firstServerMessageSequenceNumber = _messagesFromServer[_messagesFromServer.length -1] && _messagesFromServer[_messagesFromServer.length -1].sequenceNumber;
@@ -54,6 +55,7 @@ function insertMessages(messagesInChats, chatGuid, messages, contactsList, profi
     const _messagesInChats = messagesInChats || {};
     _messagesInChats[chatGuid] = _messagesInChats[chatGuid] || {};
     _messagesInChats[chatGuid].messages = _messages;
+    if (moreDataAvailable !== undefined) _messagesInChats[chatGuid].moreDataAvailable = moreDataAvailable; // if we got undefined, leave the current value for this chat
     return _messagesInChats;
 }
 
@@ -74,7 +76,7 @@ export default function (state, action, contacts, profile) {
         case ACTION_MESSAGE_FETCH:
             return {
                 ...state,
-                messagesInChats: insertMessages(state.messagesInChats, action.chatGuid, action.messages, contacts.contactsList, profile)
+                messagesInChats: insertMessages(state.messagesInChats, action.chatGuid, action.messages, action.moreDataAvailable, contacts.contactsList, profile)
             };
 
         case ACTION_MESSAGE_REFRESH:

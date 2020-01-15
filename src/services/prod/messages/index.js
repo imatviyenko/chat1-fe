@@ -16,6 +16,14 @@ export async function fetchMessagesAfterSequenceNumber(chatGuid, sequenceNumber)
 }
 
 
+export async function fetchMessagesBeforeSequenceNumber(chatGuid, sequenceNumber) {
+    if (!(this.authContext && this.authContext.token)) throw new Error('No authentication context');
+
+    const url = sequenceNumber ? `chats/${chatGuid}/messages?before=${sequenceNumber}` : `chats/${chatGuid}/messages`;
+    return this.callApiEndpoint(url, 'GET', null, this.authContext.token);
+}
+
+
 /*
 function dateToString(date) {
     return encodeURI(date.toISOString());

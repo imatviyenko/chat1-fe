@@ -5,7 +5,7 @@ import icons from '../../icons';
 
 import './ReceivedMessages.css';
 
-export default function ReceivedMessages({messages}) {
+export default function ReceivedMessages({messages, moreDataAvailable, downloadMoreMessages}) {
 
     const mapFunc = message => {
         return (
@@ -22,11 +22,25 @@ export default function ReceivedMessages({messages}) {
         );
     };
 
+
+    const downloadMoreMessagesButtonElement = moreDataAvailable && (
+        <IconButtton 
+            icon={icons.arrowDownIcon}
+            iconAlt="More"
+            label="More messages ..."
+            onClick={downloadMoreMessages}
+            className="chat1-receivedMessages__downloadMoreMessagesButton"
+        />
+    );
+
     return (
         <div className="chat1-receivedMessages">
-            <ul className="chat1-receivedMessages__list">
-                {Array.isArray(messages) && messages.map(mapFunc)}
-            </ul>
+            <div className="chat1-receivedMessages__listContainer">
+                <ul className="chat1-receivedMessages__list">
+                    {Array.isArray(messages) && messages.map(mapFunc)}
+                </ul>
+                {downloadMoreMessagesButtonElement}
+            </div>
         </div>
     )
 }
