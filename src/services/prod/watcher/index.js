@@ -13,6 +13,7 @@ function setDispatch(dispatch) {
 
 function connect(token) {
     console.log(`watcher.connect invoked`);
+    this.token = token;
 
     try {
         const webSocketServerUrl = process.env.REACT_APP_WEBSOCKET_URL || 'ws://localhost:3001/'; // get back-end API URL via the environment variable REACT_APP_WEBSOCKET_URL
@@ -24,6 +25,7 @@ function connect(token) {
         this.connection.onclose = this.onClose.bind(this);
         this.connection.onerror = this.onError.bind(this);
         this.connection.onmessage = this.onMessage.bind(this);
+        this.pingServer = this.pingServer.bind(this);
     
        return {
             status: constants.ERROR_SUCCESS
@@ -50,6 +52,7 @@ function disconnect() {
     };
 }
 
+/*
 function sendMessage(message) {
     console.log(`watcher.sendMessage -> message: ${JSON.stringify(message)}`);
     if (!this.connection) return;
@@ -61,15 +64,33 @@ function sendMessage(message) {
         console.error(e);
     };    
 }
+*/
+
+function pingServer() {
+    console.log(`watcher.pingServer invoked`);
+    if (!this.connection || !this.token) return;
+
+    const message = {
+        token: this.token
+    };
+
+    try {
+        this.connection.send(JSON.stringify(message));
+    } catch (e) {
+        console.error(`Error sending message to the back-end server over WebSocket connection:`);
+        console.error(e);
+    };    
+}
 
 function onOpen() {
     console.log(`watcher.onOpen invoked`);
-    this.connection.send('hey');
+    this.pingerIntervalId = setInterval(this.pingServer, constants.PING_SERVER_INTERVAL_SECONDS * 1000);
 }
 
 function onClose() {
     console.log(`watcher.onClose invoked`);
     this.dispatch({type: ACTION_AUTHENTICATION_LOGOUT}); // logout current user if WebSocket connection to the back-end server is interrupted
+    if (this.pingerIntervalId) clearInterval(this.pingerIntervalId);
 }
 
 
@@ -117,7 +138,8 @@ const watcher = {
     setDispatch,
     connect,
     disconnect,
-    sendMessage,
+    pingServer,
+    //sendMessage,
     onOpen,
     onClose,
     onError,

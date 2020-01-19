@@ -1,7 +1,8 @@
 import React, {useReducer} from 'react';
 
 import {
-  BrowserRouter as Router,
+  //BrowserRouter as Router,
+  HashRouter as Router, // https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writing-manually
   Switch,
   Route
 } from "react-router-dom";
