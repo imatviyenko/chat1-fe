@@ -12,7 +12,7 @@ import watcher from './watcher';
 
 
 const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001/'; // get back-end API URL via the environment variable REACT_APP_API_URL
-console.debug('services -> apiUrl: ', apiUrl);
+console.log('services -> apiUrl: ', apiUrl);
 
 function setAuthContext(auth) {
     this.authContext = auth;

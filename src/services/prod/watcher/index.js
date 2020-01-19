@@ -17,7 +17,7 @@ function connect(token) {
 
     try {
         const webSocketServerUrl = process.env.REACT_APP_WEBSOCKET_URL || 'ws://localhost:3001/'; // get back-end API URL via the environment variable REACT_APP_WEBSOCKET_URL
-        console.debug('watcher.connect -> webSocketServerUrl: ', webSocketServerUrl);
+        console.log('watcher.connect -> webSocketServerUrl: ', webSocketServerUrl);
     
         // Hack -> send jwt token string as WebSocket "sec-websocket-protocol" header
         this.connection = new WebSocket(webSocketServerUrl, token);
