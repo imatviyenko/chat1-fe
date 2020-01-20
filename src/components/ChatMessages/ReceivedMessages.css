@@ -38,3 +38,14 @@
 .chat1-receivedMessages__downloadMoreMessagesButton {
     margin-top: 1rem;
 }
+
+
+@media only screen and (max-width: 600px) {
+    .chat1-receivedMessages {
+        position: static;
+    }
+    
+    .chat1-receivedMessages__listContainer {
+        position: static;
+    }
+}

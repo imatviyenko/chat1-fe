@@ -50,4 +50,39 @@
 .chat1-topBar__buttonLogout {
   font-weight: bold;
 }
+
+
+@media only screen and (max-width: 600px) {
   
+  .chat1-topBar {
+    height: 2.2rem;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: small;
+  }
+  
+  .chat1-topBar__middleSection  {
+    font-size: small;
+  }
+
+  .chat1-topBar__logo {
+    height: 1.5rem;
+  }
+
+  .chat1-topBar__logo {
+    height: 1.5rem;
+  }
+
+  .chat1-topBar__leftSectionElement {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+  
+  .chat1-topBar__rightSectionElement {
+    line-height: 1rem;
+    max-width: 15rem;
+    padding-left: 2px;
+    padding-right: 4px;
+  }
+  
+}

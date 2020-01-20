@@ -8,6 +8,6 @@ export default function ProfileLink() {
     console.log(`ProfileLink -> profile: ${JSON.stringify(profile)}`);
 
     return (
-    <Link to="/profile">{profile.displayName || profile.email}</Link>
+        <Link to="/profile">{profile.displayName || profile.email}</Link>
     )
 }

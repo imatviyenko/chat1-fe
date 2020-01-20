@@ -8,6 +8,7 @@ body {
   font-size: 1.6rem; /* =16px */
   background-color: lightgray;
   margin: 0 0 0 0;
+  box-sizing: content-box;
 }
 
 
@@ -26,3 +27,4 @@ h1 {
   font-size: 2.4rem; /* =24px */
   font-weight: bold;
 }
+

@@ -45,3 +45,30 @@
 .chat1-homePage__containerCurrentChat {
   height: 100%;
 }
+
+
+@media only screen and (max-width: 600px) {
+
+  .chat1-homePage {
+    padding: 0.2rem;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .chat1-homePage__content_left {
+    padding: 1px;
+    border: none;
+  }
+  
+  .chat1-homePage__content {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .chat1-homePage__content_right {
+    padding: 1px;
+    border: none;
+  }  
+}
