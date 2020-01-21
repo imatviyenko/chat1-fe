@@ -101,7 +101,7 @@ function ChatProperties({chat, onUpdateChatName, onUpdateChatUsers}) {
                     <span className="chat1-currentChat__chatProperties__fieldLabel">Users:</span>
                 </div>
                 <div className="chat1-currentChat__chatProperties__rightCol">
-                    <ContactPicker initialContactsList={chat.users} onUpdateContactsList={onUpdateChatUsers} readonly={chat.type === constants.CHAT_TYPE_PRIVATE}/>
+                    <ContactPicker initialContactsList={chat.users} onUpdateContactsList={onUpdateChatUsers} readonly={chat.type === constants.CHAT_TYPE_PRIVATE} maxContactCount={constants.MAX_USERS_PER_GROUP_CHAT}/>
                 </div>
             </div>
         </div>

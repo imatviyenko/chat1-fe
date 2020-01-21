@@ -33,7 +33,7 @@ const getContactsDropDownUsers = (currentContactsList, contactsList) => {
 }
 
 
-function ContactPicker({initialContactsList, onUpdateContactsList, readonly}) {
+function ContactPicker({initialContactsList, onUpdateContactsList, readonly, maxContactCount}) {
     const [editMode, setEditMode] = useState(false);
 
     const contacts = useContext(ContactsContext);
@@ -84,7 +84,7 @@ function ContactPicker({initialContactsList, onUpdateContactsList, readonly}) {
         <option value="" key="EMPTY">Select contact</option>,
         ...contactsDropDownUsers.map( u => <option key={u.email} value={u.email}>{u.displayName || u.email}</option>)
     ];
-    if (editMode && !readonly) {
+    if (editMode && !readonly && augmentedCurrentContactsList.length < maxContactCount) {
         addContactElement = showNewContactDropDown ?
         (
             <select 
