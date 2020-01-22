@@ -1,3 +1,5 @@
+import {ACTION_CHAT_REFRESH} from './chatsReducer';
+
 export const ACTION_CONTACT_ADD = 'ACTION_CONTACT_ADD';
 export const ACTION_CONTACT_REMOVE = 'ACTION_CONTACT_REMOVE';
 export const ACTION_CONTACT_FETCH_ALL = 'ACTION_CONTACT_FETCH_ALL';
@@ -90,6 +92,7 @@ export default function (state, action) {
                 contactsList: action.contacts
             };
 
+        case ACTION_CHAT_REFRESH:
         case ACTION_CONTACT_REFRESH:
             return {
                 ...state,
